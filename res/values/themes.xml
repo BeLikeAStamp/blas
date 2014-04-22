@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <style name="Theme.myTheme.Baniere" parent="android:Theme">
+        <item name="android:windowTitleBackgroundStyle">@style/windowTitleBaniereStyle</item>
+        <item name="android:windowTitleSize">150dip</item>
+        <item name="android:windowNoTitle">false</item>
+        <item name="android:windowBackground">@android:color/white</item>
+    </style>    
+
+</resources>

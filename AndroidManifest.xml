@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.androtailored.belikeastampuser"
+    android:versionCode="1"
+    android:versionName="1.0" >
+
+    <uses-sdk
+        android:minSdkVersion="11"
+        android:targetSdkVersion="18" />
+
+    <application
+        android:name="com.androtailored.belikeastampuser.util.ProjectData" 
+        android:allowBackup="true"
+        android:icon="@drawable/ic_launcher"
+        android:theme="@style/Theme.myTheme.Baniere" >
+        <activity
+            android:name="com.androtailored.belikeastampuser.activities.MainActivity"
+            android:screenOrientation="portrait"
+            android:label="@string/empty" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.androtailored.belikeastampuser.activities.FirstConnectionActivity"
+            android:screenOrientation="portrait"
+            android:label="@string/empty" >
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.androtailored.belikeastampuser.activities.CardTypeActivity"
+            android:screenOrientation="portrait"
+            android:label="@string/empty" >
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.androtailored.belikeastampuser.activities.HowManyWhenActivity"
+            android:screenOrientation="portrait"
+            android:label="@string/empty" >
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.androtailored.belikeastampuser.activities.ColorPaletteActivity"
+            android:screenOrientation="portrait"
+            android:label="@string/empty" >
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.androtailored.belikeastampuser.activities.TutorialsActivity"
+            android:screenOrientation="portrait"
+            android:label="@string/empty" >
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.androtailored.belikeastampuser.activities.CardThemeActivity"
+            android:screenOrientation="portrait"
+            android:label="@string/empty" >
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.androtailored.belikeastampuser.activities.PersonnalizationActivity"
+            android:screenOrientation="portrait"
+            android:label="@string/empty" >
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.androtailored.belikeastampuser.activities.SubmissionActivity"
+            android:screenOrientation="portrait"
+            android:label="@string/empty" >
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.androtailored.belikeastampuser.activities.ProjectManagerActivity"
+            android:screenOrientation="portrait"
+            android:label="@string/empty" >
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+            </intent-filter>
+        </activity>
+    </application>
+
+</manifest>
