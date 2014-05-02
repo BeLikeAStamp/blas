@@ -26,8 +26,8 @@
     <string name="memoriser">Mémoriser</string>
     <string name="btn_record">Enregistrer</string>
     <string name="card_type">Type de cartes</string>
-	<string name="belikeastamp">http://belikeastamp.blogspot.fr</string>
-	    
+    <string name="belikeastamp">http://belikeastamp.blogspot.fr</string>
+
     <string-array name="cardtypes">
         <item>Save The Date</item>
         <item>Remerciements</item>
@@ -44,31 +44,33 @@
     <string name="how_many_cards">Combien de cartes</string>
     <string name="for_when">Pour quand ?</string>
     <string name="color_set">Les couleurs</string>
-    
     <string name="color_instruction">Choisis trois couleurs maximum</string>
     <string name="selected_colors">Couleurs choisies</string>
     <string name="color_warning">Trois couleurs maximum parce que trop de couleurs tue la couleur !\nClique sur une couleur pour la supprimer puis choisis-en une autre </string>
-    <string name="nocolor_warning" >Merci de choisir au moins une couleur</string>
+    <string name="nocolor_warning">Merci de choisir au moins une couleur</string>
     <string name="color_cat1">Les Tendances</string>
     <string name="color_cat2">Les Éclatantes</string>
     <string name="color_cat3">Les Subtiles</string>
     <string name="color_cat4">Les Gourmandes</string>
     <string name="color_cat5">Les Neutres</string>
-    
-    
     <string name="themes">Thématique</string>
     <string name="personnalisation">Personnalisation</string>
     <string name="age">Âge</string>
     <string name="years">an(s)</string>
     <string name="age_hint">***</string>
     <string name="style">Style</string>
-    <string name="style1">Romantique</string>
-    <string name="style2">Kids</string>
-    <string name="style3">Mature</string>
-    <string name="style4">Glamour</string>
-    <string name="style5">Tendance</string>
-    <string name="style6">Classic</string>
-    <string name="style7">Autre</string>
+    <string name="style_prompt">Choisir un style</string>
+
+    <string-array name="style_arrays">
+        <item>Romantique</item>
+        <item>Kids</item>
+        <item>Mature</item>
+        <item>Glamour</item>
+        <item>Tendance</item>
+        <item>Classic</item>
+        <item>Autre</item>
+    </string-array>
+
     <string name="sexe">Sexe</string>
     <string name="man">Homme</string>
     <string name="woman">Femme</string>

@@ -20,8 +20,10 @@ public class SubmissionActivity extends Activity {
 	private Button precedent;
 	private TextView cardType;
 	private TextView cardTheme;
+	private TextView cardStyle;
 	private TextView howMany;
 	private TextView when;
+	private TextView perso;
 	private ImageView color1;
 	private ImageView color2;
 	private ImageView color3;
@@ -42,8 +44,10 @@ public class SubmissionActivity extends Activity {
 		
         cardType = (TextView) findViewById(R.id.card_type);
         cardTheme = (TextView) findViewById(R.id.card_theme);
+        cardStyle = (TextView) findViewById(R.id.card_style);
         howMany = (TextView) findViewById(R.id.number);
         when = (TextView) findViewById(R.id.date);
+        perso = (TextView) findViewById(R.id.perso);
         
         envoyer.setOnClickListener(new View.OnClickListener() {
 
@@ -65,8 +69,10 @@ public class SubmissionActivity extends Activity {
         
         cardType.setText(" : "+globalVariable.getProjectType());
         cardTheme.setText(" : "+globalVariable.getProjectTheme());
+        cardStyle.setText(" : "+globalVariable.getProjectStyle());
         howMany.setText(" : "+globalVariable.getNumberOfCards());
         when.setText(" "+globalVariable.getOrderDate());
+        perso.setText(" : "+globalVariable.getPerso());
         
         int color = globalVariable.getColor1();
         if (color != -1)

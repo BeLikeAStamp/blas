@@ -61,6 +61,24 @@
             style="@style/MediumHblue"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:text="@string/style" />
+
+        <TextView
+            android:id="@+id/card_style"
+            style="@style/MediumLblue"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+    
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal" >
+
+        <TextView
+            style="@style/MediumHblue"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:text="@string/how_many_cards" />
 
         <TextView

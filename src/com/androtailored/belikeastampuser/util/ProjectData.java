@@ -5,14 +5,13 @@ import android.app.Application;
 public class ProjectData extends Application {
 	private String projectTheme;
 	private String projectType;
+	private String projectStyle;
 	private String projectName;
 	private String numberOfCards;
 	private String submitDate;
 	private String orderDate;
 	private int[] colorPanel;
 	private PersoSubject perso;
-	
-	
 	
 	public ProjectData() {
 		super();
@@ -83,6 +82,12 @@ public class ProjectData extends Application {
 	}
 	public void setPerso(PersoSubject perso) {
 		this.perso = perso;
+	}
+	public String getProjectStyle() {
+		return projectStyle;
+	}
+	public void setProjectStyle(String projectStyle) {
+		this.projectStyle = projectStyle;
 	}
 
 }

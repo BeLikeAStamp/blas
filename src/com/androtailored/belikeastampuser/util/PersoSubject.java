@@ -2,37 +2,37 @@ package com.androtailored.belikeastampuser.util;
 
 public class PersoSubject {
 	private String name;
-	private short sexe;
-	private int age;
-	private String style;
+	private String sexe;
+	private String age;
+
+	public PersoSubject() {
+		name = "secret";
+		sexe = "secret";
+		age = "secret";
+	}
+	
 	public String getName() {
 		return name;
 	}
 	public void setName(String name) {
 		this.name = name;
 	}
-	public short getSexe() {
+	public String getSexe() {
 		return sexe;
 	}
-	public void setSexe(short sexe) {
+	public void setSexe(String sexe) {
 		this.sexe = sexe;
 	}
-	public int getAge() {
+	public String getAge() {
 		return age;
 	}
-	public void setAge(int age) {
+	public void setAge(String age) {
 		this.age = age;
 	}
-	public String getStyle() {
-		return style;
-	}
-	public void setStyle(String style) {
-		this.style = style;
-	}
+	
 	@Override
 	public String toString() {
-		return name + ", " + sexe + ", =" + age
-				+ ", " + style;
+		return name + ", " + sexe + ", " + age;
 	}
 	
 }
