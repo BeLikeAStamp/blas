@@ -8,6 +8,7 @@ import android.app.DialogFragment;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.format.DateUtils;
+import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -26,8 +27,14 @@ public class HowManyWhenActivity extends Activity {
 	private Button suivant;
 	private Button precedent;
 	private EditText number;
-
-
+	final static int BACKINTIME = 1;
+	final static int IMPOSSIBLE = 2;
+	final static int NOINFOS = 3;
+	final static int FAISABLE = 4;
+	final static long WEEK = 604800000L;
+	private long today = System.currentTimeMillis();
+	private long delay ;
+	
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.project_submission_howmany_and_when);
@@ -38,8 +45,8 @@ public class HowManyWhenActivity extends Activity {
 		precedent = (Button) findViewById(R.id.prev);
 		number = (EditText) findViewById(R.id.numberOfCards);
 
-		setDate(System.currentTimeMillis());
-		globalVariable.setSubmitDate(getDate(System.currentTimeMillis()));
+		setDate(today);
+		globalVariable.setSubmitDate(getDate(today));
 
 		selectDate.setOnClickListener(new OnClickListener() {  
 			@Override  
@@ -55,12 +62,31 @@ public class HowManyWhenActivity extends Activity {
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				globalVariable.setNumberOfCards(number.getText().toString());
-				globalVariable.setOrderDate(selectDate.getText().toString());
-				Intent intent = new Intent(HowManyWhenActivity.this,ColorPaletteActivity.class);
-				startActivity(intent);
+
+				switch (isFaisable()) {
+
+				case FAISABLE:
+					globalVariable.setNumberOfCards(number.getText().toString());
+					globalVariable.setOrderDate(selectDate.getText().toString());
+					Intent intent = new Intent(HowManyWhenActivity.this,ColorPaletteActivity.class);
+					startActivity(intent);
+					break;
+				case IMPOSSIBLE:
+					Toast.makeText(getApplicationContext(), "Désolé nous n'avons que 4 mains :( ", Toast.LENGTH_LONG).show();
+					break;
+				case NOINFOS:
+					Toast.makeText(getApplicationContext(), "Désolé il nous faut un peu plus d'infos :)", Toast.LENGTH_LONG).show();
+					break;
+				case BACKINTIME:
+					Toast.makeText(getApplicationContext(), "Désolé nous ne remontons pas le temps ;-)", Toast.LENGTH_LONG).show();
+					break;
+				default:
+					break;
+				}
 			}
 		});
+
+
 
 		precedent.setOnClickListener(new View.OnClickListener() {
 
@@ -72,29 +98,29 @@ public class HowManyWhenActivity extends Activity {
 			}
 		});
 
-		/*Resources res = (Resources)getResources();
-        String[] cardTypes = res.getStringArray(R.array.cardtypes);
-        ListView listView = (ListView) findViewById(R.id.listMenu);
+	}
 
-		listView.setAdapter(new ArrayAdapter<String>(this, R.layout.card_type_item, cardTypes));
-		listView.setOnItemClickListener(new OnItemClickListener() {
-
-			@Override
-			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
-					long arg3) {
-				// TODO Auto-generated method stub
-				Intent intent = new Intent(HowManyWhenActivity.this,FirstConnectionActivity.class);
-				startActivity(intent);
-			}
-
-		});*/
+	protected int isFaisable() {
+		int faisable = -1;
+		
+		Integer n = Integer.parseInt(number.getText().toString());
+		if(delay == today || number.getText().toString().isEmpty() || n.equals(0)) faisable = NOINFOS;
+		else if (delay < today) {
+			faisable = BACKINTIME;
+		}
+		else if (delay - today < WEEK) {
+			faisable = IMPOSSIBLE;
+		}
+		else faisable = FAISABLE;
+		
+		return faisable;
 	}
 
 	private void setDate(long millisecond){  
 		int flags = DateUtils.FORMAT_SHOW_DATE | DateUtils.FORMAT_SHOW_YEAR  
 				| DateUtils.FORMAT_SHOW_WEEKDAY | DateUtils.FORMAT_ABBREV_MONTH  
 				| DateUtils.FORMAT_ABBREV_WEEKDAY;  
-		String dateString = DateUtils.formatDateTime(this,millisecond, flags);  
+		String dateString = DateUtils.formatDateTime(this,millisecond, flags);
 		selectDate.setText(dateString);  
 
 	}
@@ -112,7 +138,8 @@ public class HowManyWhenActivity extends Activity {
 		@Override  
 		public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {  
 			Calendar c = Calendar.getInstance();  
-			c.set(year, monthOfYear, dayOfMonth);  
+			c.set(year, monthOfYear, dayOfMonth);
+			delay = c.getTime().getTime();
 			setDate(c.getTime().getTime());  
 
 		}  

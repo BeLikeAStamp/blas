@@ -11,10 +11,24 @@
     <TextView
         android:id="@+id/choose_card"
         style="@style/LargePink"
-        android:paddingBottom="20dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:paddingBottom="20dp"
         android:text="@string/themes" />
+
+    <ListView
+        android:id="@+id/listMenu"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+    </ListView>
+
+    <EditText
+        android:id="@+id/otherTheme"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:visibility="invisible"
+        android:inputType="text" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -37,6 +51,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="30dip"
             android:background="@drawable/btn_action_pink"
+            android:visibility="invisible"
             android:text="@string/btn_next" />
     </LinearLayout>
 
