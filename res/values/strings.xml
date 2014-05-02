@@ -41,7 +41,7 @@
     <string name="btn_previous">Précédent</string>
     <string name="btn_next">Suivant</string>
     <string name="how_when">Combien et Quand ?</string>
-    <string name="how_many_cards">Combien de cartes : </string>
+    <string name="how_many_cards">Combien de cartes</string>
     <string name="for_when">Pour quand ?</string>
     <string name="color_set">Les couleurs</string>
     
@@ -58,15 +58,17 @@
     
     <string name="themes">Thématique</string>
     <string name="personnalisation">Personnalisation</string>
-    <string name="age">Âge (fac.)</string>
+    <string name="age">Âge</string>
     <string name="years">an(s)</string>
-    <string name="age_hint">000</string>
-    <string name="style">Style (fac.)</string>
-    <string name="baby">Bébé</string>
-    <string name="child">Enfant</string>
-    <string name="ado">Ado</string>
-    <string name="adult">Adulte</string>
-    <string name="senior">Sénior</string>
+    <string name="age_hint">***</string>
+    <string name="style">Style</string>
+    <string name="style1">Romantique</string>
+    <string name="style2">Kids</string>
+    <string name="style3">Mature</string>
+    <string name="style4">Glamour</string>
+    <string name="style5">Tendance</string>
+    <string name="style6">Classic</string>
+    <string name="style7">Autre</string>
     <string name="sexe">Sexe</string>
     <string name="man">Homme</string>
     <string name="woman">Femme</string>

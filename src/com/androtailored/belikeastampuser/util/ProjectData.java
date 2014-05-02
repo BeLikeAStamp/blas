@@ -1,14 +1,12 @@
 package com.androtailored.belikeastampuser.util;
 
-import java.util.Date;
-
 import android.app.Application;
 
 public class ProjectData extends Application {
 	private String projectTheme;
 	private String projectType;
 	private String projectName;
-	private int numberOfCards;
+	private String numberOfCards;
 	private String submitDate;
 	private String orderDate;
 	private int[] colorPanel;
@@ -62,10 +60,10 @@ public class ProjectData extends Application {
 	public void setProjectName(String projectName) {
 		this.projectName = projectName;
 	}
-	public int getNumberOfCards() {
+	public String getNumberOfCards() {
 		return numberOfCards;
 	}
-	public void setNumberOfCards(int numberOfCards) {
+	public void setNumberOfCards(String numberOfCards) {
 		this.numberOfCards = numberOfCards;
 	}
 	public String getSubmitDate() {

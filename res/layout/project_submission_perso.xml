@@ -16,114 +16,121 @@
         android:paddingBottom="20dp"
         android:text="@string/personnalisation" />
 
-    <ScrollView
+    <!--
+        <ScrollView
         android:layout_width="match_parent"
         android:layout_height="@dimen/scrolling_height"
         android:orientation="vertical">
+    -->
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical" >
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal" >
+
+            <TextView
+                android:id="@+id/firstname"
+                style="@style/MediumHblue"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingRight="10dp"
+                android:text="@string/firstname" />
+
+            <EditText
+                android:id="@+id/enter_firstname"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:inputType="text" />
+        </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical" >
+            android:orientation="horizontal" >
 
-            <LinearLayout
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal" >
-
-                <TextView
-                    android:id="@+id/firstname"
-                    style="@style/MediumHblue"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:paddingRight="10dp"
-                    android:text="@string/firstname" />
-
-                <EditText
-                    android:id="@+id/enter_firstname"
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:inputType="text" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal" >
-
-                <TextView
-                    android:id="@+id/sexechoice"
-                    style="@style/MediumHblue"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:paddingRight="10dp"
-                    android:text="@string/sexe" />
-
-                <RadioGroup
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical" >
-
-                    <RadioButton
-                        android:id="@+id/male"
-                        style="@style/MediumPink"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:button="@drawable/rb_hblue"
-                        android:paddingRight="10dp"
-                        android:text="@string/man" />
-
-                    <RadioButton
-                        android:id="@+id/female"
-                        style="@style/MediumPink"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:button="@drawable/rb_hblue"
-                        android:text="@string/woman" />
-                </RadioGroup>
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal" >
-
-                <TextView
-                    android:id="@+id/age"
-                    style="@style/MediumHblue"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:paddingRight="10dp"
-                    android:text="@string/age" />
-
-                <EditText
-                    android:id="@+id/enter_age"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:hint="@string/age_hint"
-                    android:inputType="number" />
-                
-                <TextView
-                    style="@style/MediumHblue"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:paddingLeft="10dp"
-                    android:text="@string/years" />
-            </LinearLayout>
-
-            <LinearLayout
+            <TextView
+                android:id="@+id/sexechoice"
+                style="@style/MediumHblue"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
+                android:paddingRight="10dp"
+                android:text="@string/sexe" />
+
+            <RadioGroup
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
                 android:orientation="horizontal" >
 
-                <TextView
-                    android:id="@+id/style"
-                    style="@style/MediumHblue"
-                    android:layout_width="fill_parent"
+                <RadioButton
+                    android:id="@+id/male"
+                    style="@style/MediumPink"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:button="@drawable/rb_hblue"
                     android:paddingRight="10dp"
-                    android:text="@string/style" />
+                    android:text="@string/man" />
+
+                <RadioButton
+                    android:id="@+id/female"
+                    style="@style/MediumPink"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:button="@drawable/rb_hblue"
+                    android:text="@string/woman" />
+            </RadioGroup>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal" >
+
+            <TextView
+                android:id="@+id/age"
+                style="@style/MediumHblue"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingRight="10dp"
+                android:text="@string/age" />
+
+            <EditText
+                android:id="@+id/enter_age"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:hint="@string/age_hint"
+                android:inputType="number" />
+
+            <TextView
+                style="@style/MediumHblue"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingLeft="10dp"
+                android:text="@string/years" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:orientation="horizontal" >
+
+            <TextView
+                android:id="@+id/style"
+                style="@style/MediumHblue"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:paddingRight="10dp"
+                android:text="@string/style" />
+
+            <ScrollView
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/scrolling_height"
+                android:orientation="vertical" >
 
                 <RadioGroup
                     android:layout_width="fill_parent"
@@ -131,50 +138,73 @@
                     android:orientation="vertical" >
 
                     <RadioButton
-                        android:id="@+id/bb"
+                        android:id="@+id/style1"
                         style="@style/MediumPink"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:button="@drawable/rb_hblue"
-                        android:text="@string/baby" />
+                        android:text="@string/style1" />
 
                     <RadioButton
-                        android:id="@+id/enf"
+                        android:id="@+id/style2"
                         style="@style/MediumPink"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:button="@drawable/rb_hblue"
-                        android:text="@string/child" />
+                        android:text="@string/style2" />
 
                     <RadioButton
-                        android:id="@+id/ado"
+                        android:id="@+id/style3"
                         style="@style/MediumPink"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:button="@drawable/rb_hblue"
-                        android:text="@string/ado" />
+                        android:text="@string/style3" />
 
                     <RadioButton
-                        android:id="@+id/adl"
+                        android:id="@+id/style4"
                         style="@style/MediumPink"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:button="@drawable/rb_hblue"
-                        android:text="@string/adult" />
+                        android:text="@string/style4" />
 
                     <RadioButton
-                        android:id="@+id/sen"
+                        android:id="@+id/style5"
                         style="@style/MediumPink"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:button="@drawable/rb_hblue"
-                        android:text="@string/senior" />
+                        android:text="@string/style5" />
+
+                    <RadioButton
+                        android:id="@+id/style6"
+                        style="@style/MediumPink"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:button="@drawable/rb_hblue"
+                        android:text="@string/style6" />
+
+                    <RadioButton
+                        android:id="@+id/style7"
+                        style="@style/MediumPink"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:button="@drawable/rb_hblue"
+                        android:text="@string/style7" />
                 </RadioGroup>
-            </LinearLayout>
+            </ScrollView>
         </LinearLayout>
-    </ScrollView>
 
-    <Button
+        <EditText
+            android:id="@+id/other_style"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:inputType="text" />
+    </LinearLayout>
+
+    <!--
+       <Button
         android:id="@+id/reg"
         style="@style/btnStyleActionLBlueSmall"
         android:layout_width="wrap_content"
@@ -183,6 +213,7 @@
         android:layout_marginTop="10dp"
         android:background="@drawable/btn_action_lblue"
         android:text="@string/btn_add_subject" />
+    -->
 
     <LinearLayout
         android:layout_width="match_parent"

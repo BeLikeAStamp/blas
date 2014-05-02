@@ -29,6 +29,7 @@
         <EditText
             android:id="@+id/numberOfCards"
             android:layout_width="fill_parent"
+            android:layout_marginLeft="10dp"
             android:layout_height="wrap_content"
             android:inputType="number" />
     </LinearLayout>

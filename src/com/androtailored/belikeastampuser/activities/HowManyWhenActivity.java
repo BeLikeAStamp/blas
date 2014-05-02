@@ -55,7 +55,7 @@ public class HowManyWhenActivity extends Activity {
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				globalVariable.setNumberOfCards(Integer.valueOf(number.getText().toString()));
+				globalVariable.setNumberOfCards(number.getText().toString());
 				globalVariable.setOrderDate(selectDate.getText().toString());
 				Intent intent = new Intent(HowManyWhenActivity.this,ColorPaletteActivity.class);
 				startActivity(intent);

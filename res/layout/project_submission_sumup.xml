@@ -61,20 +61,32 @@
             style="@style/MediumHblue"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/how_when" />
+            android:text="@string/how_many_cards" />
 
         <TextView
-            android:id="@+id/how_when"
+            android:id="@+id/number"
             style="@style/MediumLblue"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content" />
     </LinearLayout>
 
-    <TextView
-        style="@style/MediumHblue"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:text="@string/color_set" />
+        android:orientation="horizontal" >
+
+        <TextView
+            style="@style/MediumHblue"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/for_when" />
+
+        <TextView
+            android:id="@+id/date"
+            style="@style/MediumLblue"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -83,6 +95,12 @@
         android:orientation="horizontal"
         android:paddingBottom="10dp"
         android:paddingTop="20dp" >
+
+        <TextView
+            style="@style/MediumHblue"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/color_set" />
 
         <ImageView
             android:id="@+id/selected_color1"

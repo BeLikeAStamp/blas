@@ -4,6 +4,7 @@ package com.androtailored.belikeastampuser.activities;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 import android.widget.Button;
@@ -19,7 +20,8 @@ public class SubmissionActivity extends Activity {
 	private Button precedent;
 	private TextView cardType;
 	private TextView cardTheme;
-	private TextView howWhen;
+	private TextView howMany;
+	private TextView when;
 	private ImageView color1;
 	private ImageView color2;
 	private ImageView color3;
@@ -40,7 +42,8 @@ public class SubmissionActivity extends Activity {
 		
         cardType = (TextView) findViewById(R.id.card_type);
         cardTheme = (TextView) findViewById(R.id.card_theme);
-        howWhen = (TextView) findViewById(R.id.how_when);
+        howMany = (TextView) findViewById(R.id.number);
+        when = (TextView) findViewById(R.id.date);
         
         envoyer.setOnClickListener(new View.OnClickListener() {
 
@@ -62,8 +65,18 @@ public class SubmissionActivity extends Activity {
         
         cardType.setText(" : "+globalVariable.getProjectType());
         cardTheme.setText(" : "+globalVariable.getProjectTheme());
-        howWhen.setText(" : "+globalVariable.getNumberOfCards()+ " carte(s) pour le " +globalVariable.getOrderDate());
+        howMany.setText(" : "+globalVariable.getNumberOfCards());
+        when.setText(" "+globalVariable.getOrderDate());
         
+        int color = globalVariable.getColor1();
+        if (color != -1)
+        	color1.setBackgroundResource(color);
+        color = globalVariable.getColor2();
+        if (color != -1)
+        	color2.setBackgroundResource(color);
+        color = globalVariable.getColor3();
+        if (color != -1)
+        	color3.setBackgroundResource(color);
     }
 
 

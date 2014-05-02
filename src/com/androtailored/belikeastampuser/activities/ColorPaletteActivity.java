@@ -95,6 +95,11 @@ public class ColorPaletteActivity extends Activity {
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
 				if(selectedColors[2] || selectedColors[1] || selectedColors[0]) { // au moins 1 couleur
+					
+					if(selectedColors[0] == false)globalVariable.setColor1(-1);
+					if(selectedColors[1] == false)globalVariable.setColor2(-1);
+					if(selectedColors[2] == false)globalVariable.setColor3(-1);
+					
 					Intent intent = new Intent(ColorPaletteActivity.this,CardThemeActivity.class);
 					startActivity(intent);
 				}
