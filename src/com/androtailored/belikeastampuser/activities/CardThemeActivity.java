@@ -10,13 +10,11 @@ import android.text.TextWatcher;
 import android.view.Menu;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ListView;
 import android.widget.Spinner;
-import android.widget.AdapterView.OnItemClickListener;
-import android.widget.AdapterView.OnItemSelectedListener;
 
 import com.androtailored.belikeastampuser.R;
 import com.androtailored.belikeastampuser.util.ProjectData;
@@ -25,11 +23,12 @@ public class CardThemeActivity extends Activity {
 	private Button suivant;
 	private Button precedent;
 	private EditText otherTheme;
-	private Spinner spinner;
+	private Spinner spinnerTheme;
+	private Spinner spinnerStyle;
 	private EditText otherStyle;
-	
 	private HashMap<String, String[]> themes;
 
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -39,56 +38,65 @@ public class CardThemeActivity extends Activity {
 		suivant = (Button) findViewById(R.id.suiv);
 		precedent = (Button) findViewById(R.id.prev);
 		otherTheme = (EditText) findViewById(R.id.otherTheme);
-
+		spinnerTheme = (Spinner) findViewById(R.id.spinner0);
+		
 		final ProjectData globalVariable = (ProjectData) getApplicationContext();
 
 		final String[] cardThemes = themes.get(globalVariable.getProjectType());
-		ListView listView = (ListView) findViewById(R.id.listMenu);
+		
+		ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, cardThemes);
+		spinnerArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+		spinnerTheme.setAdapter(spinnerArrayAdapter);
+		spinnerTheme.setOnItemSelectedListener(new OnItemSelectedListener() {
 
-		listView.setAdapter(new ArrayAdapter<String>(this, R.layout.card_type_item, cardThemes));
-		listView.setOnItemClickListener(new OnItemClickListener() {
 			@Override
-			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
-					long arg3) {
+			public void onItemSelected(AdapterView<?> arg0, View arg1,
+					int arg2, long arg3) {
 				// TODO Auto-generated method stub
-				
-				if (arg2 != cardThemes.length - 1) {
-					globalVariable.setProjectTheme(cardThemes[arg2]);
+				if(arg2 != arg0.getCount() - 1) {
+					globalVariable.setProjectTheme(arg0.getItemAtPosition(arg2).toString());
+					otherTheme.setVisibility(View.INVISIBLE);
 				}
 				else
 				{
 					otherTheme.setVisibility(View.VISIBLE);
 				}
 			}
-		});		
 
+			@Override
+			public void onNothingSelected(AdapterView<?> arg0) {
+				// TODO Auto-generated method stub
+
+			}
+
+		});
+		
 		otherTheme.addTextChangedListener(new TextWatcher() {
-			
+
 			@Override
 			public void onTextChanged(CharSequence s, int start, int before, int count) {
 				// TODO Auto-generated method stub
-				
+
 			}
-			
+
 			@Override
 			public void beforeTextChanged(CharSequence s, int start, int count,
 					int after) {
 				// TODO Auto-generated method stub
-				
+
 			}
-			
+
 			@Override
 			public void afterTextChanged(Editable s) {
 				// TODO Auto-generated method stub
 				globalVariable.setProjectTheme(s.toString());
-				suivant.setVisibility(View.VISIBLE);
 			}
 		});
-		
-		
+
+
 		otherStyle = (EditText) findViewById(R.id.otherStyle);
-		spinner = (Spinner) findViewById(R.id.spinner1);
-		spinner.setOnItemSelectedListener(new OnItemSelectedListener() {
+		spinnerStyle = (Spinner) findViewById(R.id.spinner1);
+		spinnerStyle.setOnItemSelectedListener(new OnItemSelectedListener() {
 
 			@Override
 			public void onItemSelected(AdapterView<?> arg0, View arg1,
@@ -96,6 +104,7 @@ public class CardThemeActivity extends Activity {
 				// TODO Auto-generated method stub
 				if(arg2 != arg0.getCount() - 1) {
 					globalVariable.setProjectStyle(arg0.getItemAtPosition(arg2).toString());
+					otherStyle.setVisibility(View.INVISIBLE);
 				}
 				else
 				{
@@ -132,8 +141,8 @@ public class CardThemeActivity extends Activity {
 				globalVariable.setProjectStyle(s.toString());
 			}
 		});
-		
-		
+
+
 		suivant.setOnClickListener(new View.OnClickListener() {
 
 			@Override

@@ -72,7 +72,7 @@ public class SubmissionActivity extends Activity {
         cardStyle.setText(" : "+globalVariable.getProjectStyle());
         howMany.setText(" : "+globalVariable.getNumberOfCards());
         when.setText(" "+globalVariable.getOrderDate());
-        perso.setText(" : "+globalVariable.getPerso());
+        perso.setText(" : "+(globalVariable.getPerso() == null ? "anonymous" : globalVariable.getPerso() ));
         
         int color = globalVariable.getColor1();
         if (color != -1)

@@ -42,6 +42,7 @@
     <string name="btn_next">Suivant</string>
     <string name="how_when">Combien et Quand ?</string>
     <string name="how_many_cards">Combien de cartes</string>
+    <string name="zero">0</string>
     <string name="for_when">Pour quand ?</string>
     <string name="color_set">Les couleurs</string>
     <string name="color_instruction">Choisis trois couleurs maximum</string>
@@ -54,6 +55,7 @@
     <string name="color_cat4">Les Gourmandes</string>
     <string name="color_cat5">Les Neutres</string>
     <string name="themes">Thématique</string>
+    <string name="theme_prompt">Choisir un thème</string>
     <string name="personnalisation">Personnalisation</string>
     <string name="age">Âge</string>
     <string name="years">an(s)</string>
