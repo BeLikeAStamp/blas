@@ -30,6 +30,28 @@
         android:visibility="invisible"
         android:inputType="text" />
 
+    <TextView
+        android:id="@+id/style"
+        style="@style/LargePink"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/style" />
+
+    <Spinner
+        android:id="@+id/spinner1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:entries="@array/style_arrays"
+        android:prompt="@string/style_prompt" />
+
+    <EditText
+        android:id="@+id/otherStyle"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:inputType="text"
+        android:visibility="invisible" />
+    
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"

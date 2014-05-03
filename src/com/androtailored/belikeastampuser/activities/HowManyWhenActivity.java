@@ -72,13 +72,13 @@ public class HowManyWhenActivity extends Activity {
 					startActivity(intent);
 					break;
 				case IMPOSSIBLE:
-					Toast.makeText(getApplicationContext(), "Désolé nous n'avons que 4 mains :( ", Toast.LENGTH_LONG).show();
+					Toast.makeText(getApplicationContext(), getResources().getText(R.string.mission_impossible), Toast.LENGTH_LONG).show();
 					break;
 				case NOINFOS:
-					Toast.makeText(getApplicationContext(), "Désolé il nous faut un peu plus d'infos :)", Toast.LENGTH_LONG).show();
+					Toast.makeText(getApplicationContext(), getResources().getText(R.string.infos_manquantes), Toast.LENGTH_LONG).show();
 					break;
 				case BACKINTIME:
-					Toast.makeText(getApplicationContext(), "Désolé nous ne remontons pas le temps ;-)", Toast.LENGTH_LONG).show();
+					Toast.makeText(getApplicationContext(), getResources().getText(R.string.back_in_time), Toast.LENGTH_LONG).show();
 					break;
 				default:
 					break;

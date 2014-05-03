@@ -71,6 +71,12 @@
         <item>Autre</item>
     </string-array>
 
+    <string name="mission_impossible">Désolé nous n\'avons que 4 mains :(</string>
+    <string name="infos_manquantes">Désolé il nous faut un peu plus d\'infos :)</string>
+    <string name="back_in_time">Désolé nous ne remontons pas le temps ;-)</string>
+    
+    <string name="anonymous_card">Carte anonyme</string>
+    <string name="personalized_card">Carte nominative</string>
     <string name="sexe">Sexe</string>
     <string name="man">Homme</string>
     <string name="woman">Femme</string>

@@ -6,14 +6,14 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.Menu;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.RadioGroup;
-import android.widget.Spinner;
+import android.widget.RadioGroup.OnCheckedChangeListener;
 import android.widget.Toast;
 
 import com.androtailored.belikeastampuser.R;
@@ -23,11 +23,12 @@ import com.androtailored.belikeastampuser.util.ProjectData;
 public class PersonnalizationActivity extends Activity {
 	private Button suivant;
 	private Button precedent;
-	private Spinner spinner;
-	private EditText otherStyle;
 	private EditText firstname;
 	private EditText age;
 	private RadioGroup gender;
+	private RadioGroup namedCard;
+	private LinearLayout layout2;
+	boolean anonymous = true;
 	
 	private PersoSubject perso = new PersoSubject();
 
@@ -41,53 +42,28 @@ public class PersonnalizationActivity extends Activity {
 		firstname = (EditText) findViewById(R.id.firstname);
 		age = (EditText) findViewById(R.id.age);
 		gender = (RadioGroup) findViewById(R.id.sexechoice);
-		
-		otherStyle = (EditText) findViewById(R.id.otherStyle);
+		namedCard = (RadioGroup) findViewById(R.id.nominalchoice);
+		layout2 = (LinearLayout) findViewById(R.id.layout2);
 		suivant = (Button) findViewById(R.id.suiv);
 		precedent = (Button) findViewById(R.id.prev);
-		spinner = (Spinner) findViewById(R.id.spinner1);
-		spinner.setOnItemSelectedListener(new OnItemSelectedListener() {
-
+		
+		
+		namedCard.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+			
 			@Override
-			public void onItemSelected(AdapterView<?> arg0, View arg1,
-					int arg2, long arg3) {
+			public void onCheckedChanged(RadioGroup group, int checkedId) {
 				// TODO Auto-generated method stub
-				if(arg2 != arg0.getCount() - 1) {
-					globalVariable.setProjectStyle(arg0.getItemAtPosition(arg2).toString());
+				Log.w("BLAS", "checkedId : " + checkedId);
+				if(checkedId == R.id.not_anonyme) {
+					layout2.setVisibility(View.VISIBLE);
+					anonymous = false;
 				}
 				else
 				{
-					otherStyle.setVisibility(View.VISIBLE);
+					layout2.setVisibility(View.INVISIBLE);
+					anonymous = true;
+					perso.setAge("");perso.setName("");perso.setSexe("");
 				}
-			}
-
-			@Override
-			public void onNothingSelected(AdapterView<?> arg0) {
-				// TODO Auto-generated method stub
-
-			}
-
-		});
-
-		otherStyle.addTextChangedListener(new TextWatcher() {
-
-			@Override
-			public void onTextChanged(CharSequence s, int start, int before, int count) {
-				// TODO Auto-generated method stub
-
-			}
-
-			@Override
-			public void beforeTextChanged(CharSequence s, int start, int count,
-					int after) {
-				// TODO Auto-generated method stub
-
-			}
-
-			@Override
-			public void afterTextChanged(Editable s) {
-				// TODO Auto-generated method stub
-				globalVariable.setProjectStyle(s.toString());
 			}
 		});
 		
@@ -136,7 +112,6 @@ public class PersonnalizationActivity extends Activity {
 				perso.setAge(s.toString());
 			}
 		});
-
 		
 		perso.setSexe(gender.getCheckedRadioButtonId() == 0 ? "M" : "F");
 		
@@ -145,9 +120,26 @@ public class PersonnalizationActivity extends Activity {
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				globalVariable.setPerso(perso);
-				Intent intent = new Intent(PersonnalizationActivity.this,SubmissionActivity.class);
-				startActivity(intent);
+				
+				if (!anonymous)
+				{
+					if (perso.getAge().isEmpty() 
+							|| perso.getName().isEmpty() 
+							|| perso.getSexe().isEmpty()) {
+						Toast.makeText(getApplicationContext(), getResources().getText(R.string.infos_manquantes), Toast.LENGTH_LONG).show();
+					}
+					else
+					{
+						globalVariable.setPerso(perso);
+						Intent intent = new Intent(PersonnalizationActivity.this,SubmissionActivity.class);
+						startActivity(intent);
+					}
+				}
+				else {
+					
+					Intent intent = new Intent(PersonnalizationActivity.this,SubmissionActivity.class);
+					startActivity(intent);
+				}
 			}
 		});
 
@@ -160,8 +152,6 @@ public class PersonnalizationActivity extends Activity {
 				startActivity(intent);
 			}
 		});
-
-
 	}
 
 

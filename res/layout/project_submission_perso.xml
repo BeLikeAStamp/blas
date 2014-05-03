@@ -18,113 +18,123 @@
         android:paddingBottom="20dp"
         android:text="@string/personnalisation" />
 
-    <LinearLayout
+    <RadioGroup
+        android:id="@+id/nominalchoice"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal" >
+        android:layout_gravity="center"
+        android:orientation="vertical" >
 
-        <TextView
-            style="@style/MediumHblue"
+        <RadioButton
+            android:id="@+id/anonyme"
+            style="@style/MediumPink"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:button="@drawable/rb_hblue"
             android:paddingRight="10dp"
-            android:text="@string/firstname" />
+            android:text="@string/anonymous_card" />
 
-        <EditText
-            android:id="@+id/firstname"
-            android:layout_width="fill_parent"
+        <RadioButton
+            android:id="@+id/not_anonyme"
+            style="@style/MediumPink"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:inputType="text" />
-    </LinearLayout>
+            android:button="@drawable/rb_hblue"
+            android:text="@string/personalized_card" />
+    </RadioGroup>
 
     <LinearLayout
-        android:layout_width="match_parent"
+        android:id="@+id/layout2"
+        android:visibility="invisible"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal" >
+        android:orientation="vertical" >
 
-        <TextView
-            style="@style/MediumHblue"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:paddingRight="10dp"
-            android:text="@string/sexe" />
-
-        <RadioGroup
-            android:id="@+id/sexechoice"
+        <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
             android:orientation="horizontal" >
 
-            <RadioButton
-                android:id="@+id/male"
-                style="@style/MediumPink"
+            <TextView
+                style="@style/MediumHblue"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:button="@drawable/rb_hblue"
                 android:paddingRight="10dp"
-                android:text="@string/man" />
+                android:text="@string/firstname" />
 
-            <RadioButton
-                android:id="@+id/female"
-                style="@style/MediumPink"
+            <EditText
+                android:id="@+id/firstname"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:inputType="text" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal" >
+
+            <TextView
+                style="@style/MediumHblue"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:button="@drawable/rb_hblue"
-                android:text="@string/woman" />
-        </RadioGroup>
+                android:layout_gravity="center"
+                android:paddingRight="10dp"
+                android:text="@string/sexe" />
+
+            <RadioGroup
+                android:id="@+id/sexechoice"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:orientation="horizontal" >
+
+                <RadioButton
+                    android:id="@+id/male"
+                    style="@style/MediumPink"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:button="@drawable/rb_hblue"
+                    android:paddingRight="10dp"
+                    android:text="@string/man" />
+
+                <RadioButton
+                    android:id="@+id/female"
+                    style="@style/MediumPink"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:button="@drawable/rb_hblue"
+                    android:text="@string/woman" />
+            </RadioGroup>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal" >
+
+            <TextView
+                style="@style/MediumHblue"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingRight="10dp"
+                android:text="@string/age" />
+
+            <EditText
+                android:id="@+id/age"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:hint="@string/age_hint"
+                android:inputType="number" />
+
+            <TextView
+                style="@style/MediumHblue"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingLeft="10dp"
+                android:text="@string/years" />
+        </LinearLayout>
     </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal" >
-
-        <TextView
-            style="@style/MediumHblue"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:paddingRight="10dp"
-            android:text="@string/age" />
-
-        <EditText
-            android:id="@+id/age"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:hint="@string/age_hint"
-            android:inputType="number" />
-
-        <TextView
-            style="@style/MediumHblue"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:paddingLeft="10dp"
-            android:text="@string/years" />
-    </LinearLayout>
-
-    <TextView
-        android:id="@+id/style"
-        style="@style/MediumHblue"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:paddingRight="10dp"
-        android:text="@string/style" />
-
-    <Spinner
-        android:id="@+id/spinner1"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:entries="@array/style_arrays"
-        android:prompt="@string/style_prompt" />
-
-    <EditText
-        android:id="@+id/otherStyle"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="10dp"
-        android:inputType="text"
-        android:visibility="invisible" />
 
     <LinearLayout
         android:layout_width="match_parent"

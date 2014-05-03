@@ -14,7 +14,9 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.Spinner;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.AdapterView.OnItemSelectedListener;
 
 import com.androtailored.belikeastampuser.R;
 import com.androtailored.belikeastampuser.util.ProjectData;
@@ -23,6 +25,8 @@ public class CardThemeActivity extends Activity {
 	private Button suivant;
 	private Button precedent;
 	private EditText otherTheme;
+	private Spinner spinner;
+	private EditText otherStyle;
 	
 	private HashMap<String, String[]> themes;
 
@@ -35,7 +39,6 @@ public class CardThemeActivity extends Activity {
 		suivant = (Button) findViewById(R.id.suiv);
 		precedent = (Button) findViewById(R.id.prev);
 		otherTheme = (EditText) findViewById(R.id.otherTheme);
-		
 
 		final ProjectData globalVariable = (ProjectData) getApplicationContext();
 
@@ -51,8 +54,6 @@ public class CardThemeActivity extends Activity {
 				
 				if (arg2 != cardThemes.length - 1) {
 					globalVariable.setProjectTheme(cardThemes[arg2]);
-					Intent intent = new Intent(CardThemeActivity.this,PersonnalizationActivity.class);
-					startActivity(intent);
 				}
 				else
 				{
@@ -83,6 +84,55 @@ public class CardThemeActivity extends Activity {
 				suivant.setVisibility(View.VISIBLE);
 			}
 		});
+		
+		
+		otherStyle = (EditText) findViewById(R.id.otherStyle);
+		spinner = (Spinner) findViewById(R.id.spinner1);
+		spinner.setOnItemSelectedListener(new OnItemSelectedListener() {
+
+			@Override
+			public void onItemSelected(AdapterView<?> arg0, View arg1,
+					int arg2, long arg3) {
+				// TODO Auto-generated method stub
+				if(arg2 != arg0.getCount() - 1) {
+					globalVariable.setProjectStyle(arg0.getItemAtPosition(arg2).toString());
+				}
+				else
+				{
+					otherStyle.setVisibility(View.VISIBLE);
+				}
+			}
+
+			@Override
+			public void onNothingSelected(AdapterView<?> arg0) {
+				// TODO Auto-generated method stub
+
+			}
+
+		});
+
+		otherStyle.addTextChangedListener(new TextWatcher() {
+
+			@Override
+			public void onTextChanged(CharSequence s, int start, int before, int count) {
+				// TODO Auto-generated method stub
+
+			}
+
+			@Override
+			public void beforeTextChanged(CharSequence s, int start, int count,
+					int after) {
+				// TODO Auto-generated method stub
+
+			}
+
+			@Override
+			public void afterTextChanged(Editable s) {
+				// TODO Auto-generated method stub
+				globalVariable.setProjectStyle(s.toString());
+			}
+		});
+		
 		
 		suivant.setOnClickListener(new View.OnClickListener() {
 
