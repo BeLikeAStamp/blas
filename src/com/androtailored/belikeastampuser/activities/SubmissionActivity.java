@@ -92,4 +92,10 @@ public class SubmissionActivity extends Activity {
         getMenuInflater().inflate(R.menu.main, menu);
         return true;
     }
+    
+    @Override
+    public void onBackPressed() {
+        Intent intent = new Intent(SubmissionActivity.this,PersonnalizationActivity.class);
+		startActivity(intent);
+    }
 }

@@ -9,6 +9,13 @@
     android:paddingTop="@dimen/activity_vertical_margin" >
 
     <TextView
+        style="@style/MediumGreen"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingBottom="20dp"
+        android:text="@string/project_explane" />
+
+    <TextView
         android:id="@+id/choose_card"
         style="@style/LargePink"
         android:layout_width="wrap_content"

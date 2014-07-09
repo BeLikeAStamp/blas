@@ -161,4 +161,10 @@ public class PersonnalizationActivity extends Activity {
 		getMenuInflater().inflate(R.menu.main, menu);
 		return true;
 	}
+	
+	@Override
+	public void onBackPressed() {
+	    Intent intent = new Intent(PersonnalizationActivity.this,CardThemeActivity.class);
+		startActivity(intent);
+	}
 }

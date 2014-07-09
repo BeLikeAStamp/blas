@@ -182,4 +182,10 @@ public class CardThemeActivity extends Activity {
 		themes.put("Voeux", new String[]{"voe1","voe2","voe3","voe4","Autre"});
 		themes.put("Saint Valentin", new String[]{"stv1","stv2","Autre"});
 	}
+	
+	@Override
+	public void onBackPressed() {
+	    Intent intent = new Intent(CardThemeActivity.this,ColorPaletteActivity.class);
+		startActivity(intent);
+	}
 }

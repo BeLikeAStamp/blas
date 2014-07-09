@@ -5,7 +5,7 @@
     <string name="action_settings">Settings</string>
     <string name="hello_world">Hello world!</string>
     <string name="in_progress_project">Projets en cours</string>
-    <string name="new_project">Nouveau projet</string>
+    <string name="btn_new_project">Nouveau projet</string>
     <string name="btn_welcome">Accueil</string>
     <string name="btn_go">GO !</string>
     <string name="btn_connect">Se connecter</string>
@@ -25,6 +25,7 @@
     <string name="confirm_psswd">Confirmer mot de passe</string>
     <string name="memoriser">Mémoriser</string>
     <string name="btn_record">Enregistrer</string>
+    <string name="project_explane">Helllooo ! Nous avons besoin de quelques précisions pour bien définir le projet : type de cartes, thème, couleurs, délais, personnalisation &#8230;</string>
     <string name="card_type">Type de cartes</string>
     <string name="belikeastamp">http://belikeastamp.blogspot.fr</string>
 

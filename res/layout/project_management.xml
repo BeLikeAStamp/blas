@@ -7,7 +7,7 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin" >
-
+    
     <TextView
         style="@style/LargePink"
         android:layout_width="wrap_content"
@@ -27,27 +27,14 @@
         android:layout_height="wrap_content" >
     </ListView>
 
-    <LinearLayout
+    <Button
+        android:id="@+id/go"
+        style="@style/btnStyleActionGreen"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:orientation="horizontal" >
-
-        <TextView
-            style="@style/MediumGreen"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/new_project" />
-
-        <Button
-            android:id="@+id/go"
-            style="@style/btnStyleActionGreen"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="30dip"
-            android:background="@drawable/btn_action_green"
-            android:text="@string/btn_go" />
-    </LinearLayout>
+        android:layout_marginTop="30dp"
+        android:background="@drawable/btn_action_green"
+        android:text="@string/btn_new_project" />
 
     <Button
         android:id="@+id/welcome"

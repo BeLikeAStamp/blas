@@ -62,4 +62,10 @@ public class CardTypeActivity extends Activity {
 		getMenuInflater().inflate(R.menu.main, menu);
 		return true;
 	}
+
+	@Override
+	public void onBackPressed() {
+		Intent intent = new Intent(CardTypeActivity.this,ProjectManagerActivity.class);
+		startActivity(intent);
+	}
 }
