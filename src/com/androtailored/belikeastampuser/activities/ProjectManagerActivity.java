@@ -1,48 +1,81 @@
 package com.androtailored.belikeastampuser.activities;
 
-import com.androtailored.belikeastampuser.R;
+import java.util.List;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.content.res.Resources;
+import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.ListView;
-import android.widget.AdapterView.OnItemClickListener;
+import android.widget.TableLayout;
+import android.widget.TableRow;
+import android.widget.TextView;
+
+import com.androtailored.belikeastampuser.R;
+import com.androtailored.belikeastampuser.db.DatabaseHandler;
+import com.androtailored.belikeastampuser.db.dao.ProjectsData;
+import com.androtailored.belikeastampuser.db.model.Project;
 
 public class ProjectManagerActivity extends Activity {
 	private Button go;
 	private Button welcome;
-	
+	private ProjectsData datasource;
+
 	@Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.project_management);
-        go = (Button) findViewById(R.id.go);
-        welcome = (Button) findViewById(R.id.welcome);
-        
-        Resources res = (Resources)getResources();
-		String[] cardTypes = {"bla","blo","bli"};
-		ListView listView = (ListView) findViewById(R.id.listMenu);
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.project_management);
+		go = (Button) findViewById(R.id.go);
+		welcome = (Button) findViewById(R.id.welcome);
+		TableLayout table = (TableLayout) findViewById(R.id.projectList);
+		String[] status = getResources().getStringArray(R.array.status_arrays);
+		
+		datasource = new ProjectsData(getApplicationContext());
+		datasource.open();
 
-		listView.setAdapter(new ArrayAdapter<String>(this, R.layout.card_type_item, cardTypes));
-		/*listView.setOnItemClickListener(new OnItemClickListener() {
+		/*Log.d("Insert: ", "Inserting .."); 
+		datasource.addProjects(new Project("projet1", "data1", 1, "theme1", "type1", "data1", 3));
+		*/
 
-			@Override
-			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
-					long arg3) {
-				// TODO Auto-generated method stub
-				Intent intent = new Intent(CardTypeActivity.this,HowManyWhenActivity.class);
-				startActivity(intent);
-			}
+		List<Project> myProjects = datasource.getAllProjects();
 
-		});*/
-        
-        go.setOnClickListener(new View.OnClickListener() {
+		for (final Project projet : myProjects) {
+			// création d'une nouvelle TableRow
+			TableRow row = new TableRow(getApplicationContext());
+			TextView tName = new TextView(getApplicationContext());
+			tName.setPadding(10, 10, 10, 10);
+			tName.setBackgroundColor(Color.WHITE);
+			tName.setTextColor(Color.DKGRAY);
+			tName.setTextSize(16);
+			tName.setGravity(Gravity.LEFT);
+			tName.setText(projet.getProject_name()+" ("+status[projet.getProject_status()]+")");
+			row.addView(tName);
+			
+			Button tDetails = new Button(getApplicationContext());
+			tDetails.setBackground(getResources().getDrawable(R.drawable.btn_action_green));
+			tDetails.setText(getResources().getString(R.string.details));
+			tDetails.setTextSize(12);
+			
+			tDetails.setOnClickListener(new View.OnClickListener() {
+				
+				@Override
+				public void onClick(View v) {
+					// TODO Auto-generated method stub
+					Intent intent = new Intent(ProjectManagerActivity.this,ProjectDetails.class);
+					intent.putExtra("project",projet);
+					startActivity(intent);
+				}
+			});
+			
+			row.addView(tDetails);
+			table.addView(row,new TableLayout.LayoutParams());
+		}
+
+		go.setOnClickListener(new View.OnClickListener() {
 
 			@Override
 			public void onClick(View v) {
@@ -51,8 +84,8 @@ public class ProjectManagerActivity extends Activity {
 				startActivity(intent);
 			}
 		});
-        
-        welcome.setOnClickListener(new View.OnClickListener() {
+
+		welcome.setOnClickListener(new View.OnClickListener() {
 
 			@Override
 			public void onClick(View v) {
@@ -61,19 +94,32 @@ public class ProjectManagerActivity extends Activity {
 				startActivity(intent);
 			}
 		});
-    }
+	}
+	
+	@Override
+	protected void onResume() {
+		datasource.open();
+		super.onResume();
+	}
 
+	@Override
+	protected void onPause() {
+		datasource.close();
+		super.onPause();
+	}
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.main, menu);
-        return true;
-    }
-    
-    @Override
-    public void onBackPressed() {
-        Intent intent = new Intent(ProjectManagerActivity.this,MainActivity.class);
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		// Inflate the menu; this adds items to the action bar if it is present.
+		getMenuInflater().inflate(R.menu.main, menu);
+		return true;
+	}
+
+	@Override
+	public void onBackPressed() {
+		Intent intent = new Intent(ProjectManagerActivity.this,MainActivity.class);
 		startActivity(intent);
-    }
+	}
 }
+
+

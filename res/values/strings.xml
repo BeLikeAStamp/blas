@@ -28,7 +28,19 @@
     <string name="project_explane">Helllooo ! Nous avons besoin de quelques précisions pour bien définir le projet : type de cartes, thème, couleurs, délais, personnalisation &#8230;</string>
     <string name="card_type">Type de cartes</string>
     <string name="belikeastamp">http://belikeastamp.blogspot.fr</string>
-
+	<string name="details">voir détails</string>
+    <string name="progression">Avancement</string>
+    <string name="prototype">Prototype</string>
+    
+     <string-array name="status_arrays">
+        <item>Projet soumis</item>
+        <item>Projet accepté</item>
+        <item>Prototype en cours</item>
+        <item>Prototype en attente de validation</item>
+        <item>Réalisation en cours</item>
+        <item>Réalisation finie</item>
+    </string-array>
+    
     <string-array name="cardtypes">
         <item>Save The Date</item>
         <item>Remerciements</item>

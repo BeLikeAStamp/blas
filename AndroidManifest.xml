@@ -105,6 +105,17 @@
                 <action android:name="android.intent.action.VIEW" />
             </intent-filter>
         </activity>
+        
+        <activity
+            android:name="com.androtailored.belikeastampuser.activities.ProjectDetails"
+            android:screenOrientation="portrait"
+            android:launchMode="singleTop"
+            android:label="@string/empty" >
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+            </intent-filter>
+        </activity>
+        
     </application>
 
 </manifest>

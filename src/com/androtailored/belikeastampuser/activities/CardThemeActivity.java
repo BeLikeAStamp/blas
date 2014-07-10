@@ -181,6 +181,7 @@ public class CardThemeActivity extends Activity {
 		themes.put("Anniversaires", new String[]{"ann1","ann2","ann3","ann4","Autre"});
 		themes.put("Voeux", new String[]{"voe1","voe2","voe3","voe4","Autre"});
 		themes.put("Saint Valentin", new String[]{"stv1","stv2","Autre"});
+		themes.put("Félicitations", new String[]{"fel1","fel2","Autre"});
 	}
 	
 	@Override

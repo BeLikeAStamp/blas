@@ -189,6 +189,7 @@
             android:id="@+id/project_name"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
+            android:maxLength="15"
             android:inputType="text" />
     </LinearLayout>
 

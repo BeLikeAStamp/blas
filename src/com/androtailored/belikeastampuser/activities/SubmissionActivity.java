@@ -4,15 +4,17 @@ package com.androtailored.belikeastampuser.activities;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.androtailored.belikeastampuser.R;
+import com.androtailored.belikeastampuser.db.dao.ProjectsData;
+import com.androtailored.belikeastampuser.db.model.Project;
 import com.androtailored.belikeastampuser.util.ProjectData;
 
 public class SubmissionActivity extends Activity {
@@ -27,7 +29,8 @@ public class SubmissionActivity extends Activity {
 	private ImageView color1;
 	private ImageView color2;
 	private ImageView color3;
-	
+	private EditText projectName;
+	private ProjectsData datasource;
 	
 	@Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,11 +52,35 @@ public class SubmissionActivity extends Activity {
         when = (TextView) findViewById(R.id.date);
         perso = (TextView) findViewById(R.id.perso);
         
+        projectName = (EditText) findViewById(R.id.project_name);
+        
         envoyer.setOnClickListener(new View.OnClickListener() {
 
 			@Override
 			public void onClick(View v) {
-				Toast.makeText(getApplicationContext(), "ENVOYER !", Toast.LENGTH_SHORT).show();
+				if(projectName.getText().toString().length() == 0)
+					Toast.makeText(getApplicationContext(), "Merci d'indiquer le nom du projet ", Toast.LENGTH_SHORT).show();
+				else {
+					
+				
+				datasource = new ProjectsData(getApplicationContext());
+				datasource.open();
+
+				datasource.addProjects(new Project(projectName.getText().toString(), 
+						globalVariable.getOrderDate(),0, 
+						globalVariable.getProjectTheme(),
+						globalVariable.getProjectType(),
+						globalVariable.getSubmitDate(),
+						Integer.valueOf(globalVariable.getNumberOfCards())));
+				
+				datasource.close();
+				
+				Toast.makeText(getApplicationContext(), "GO !", Toast.LENGTH_SHORT).show();
+				
+				Intent intent = new Intent(SubmissionActivity.this,ProjectManagerActivity.class);
+				startActivity(intent);
+				}
+				
 			}
 		});
         

@@ -1,16 +1,17 @@
 package com.androtailored.belikeastampuser.activities;
 
-import com.androtailored.belikeastampuser.R;
-
 import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+
+import com.androtailored.belikeastampuser.R;
 
 public class MainActivity extends Activity {
 
@@ -111,7 +112,12 @@ public class MainActivity extends Activity {
 
 	}
 
-
+	@Override
+	public void onBackPressed() {
+		Log.d("Main", "backPresssed");
+		this.finish();
+	}
+	
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
