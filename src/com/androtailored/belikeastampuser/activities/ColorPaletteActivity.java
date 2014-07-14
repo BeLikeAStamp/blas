@@ -215,7 +215,7 @@ public class ColorPaletteActivity extends Activity {
 	@Override
 	public void onBackPressed() {
 	    Intent intent = new Intent(ColorPaletteActivity.this,HowManyWhenActivity.class);
-		startActivity(intent);
+		//startActivity(intent);
 	}
 
 }

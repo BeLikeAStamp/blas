@@ -155,6 +155,6 @@ public class HowManyWhenActivity extends Activity {
 	@Override
 	public void onBackPressed() {
 	    Intent intent = new Intent(HowManyWhenActivity.this,CardTypeActivity.class);
-		startActivity(intent);
+		//startActivity(intent);
 	}
 }

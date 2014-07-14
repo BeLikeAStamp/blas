@@ -187,6 +187,6 @@ public class CardThemeActivity extends Activity {
 	@Override
 	public void onBackPressed() {
 	    Intent intent = new Intent(CardThemeActivity.this,ColorPaletteActivity.class);
-		startActivity(intent);
+		//startActivity(intent);
 	}
 }

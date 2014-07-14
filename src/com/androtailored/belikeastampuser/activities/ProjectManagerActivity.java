@@ -114,12 +114,6 @@ public class ProjectManagerActivity extends Activity {
 		getMenuInflater().inflate(R.menu.main, menu);
 		return true;
 	}
-
-	@Override
-	public void onBackPressed() {
-		Intent intent = new Intent(ProjectManagerActivity.this,MainActivity.class);
-		startActivity(intent);
-	}
 }
 
 
