@@ -11,11 +11,11 @@
         style="@style/LargePink"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/tutorials"
+        android:text="@string/workshops"
         android:paddingBottom="20dp" />
 
     <ListView
-        android:id="@+id/tutolist"
+        android:id="@+id/workshoplist"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 

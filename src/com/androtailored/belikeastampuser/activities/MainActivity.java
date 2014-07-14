@@ -109,6 +109,17 @@ public class MainActivity extends Activity {
 				startActivity(intent);
 			}
 		});
+		
+		
+		workshop.setOnClickListener(new View.OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				Intent intent = new Intent(MainActivity.this,WorkshopsActivity.class);
+				startActivity(intent);
+			}
+		});
 
 	}
 
