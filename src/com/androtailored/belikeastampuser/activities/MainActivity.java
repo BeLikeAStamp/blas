@@ -25,6 +25,10 @@ public class MainActivity extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+
+
+		Log.i("MainActivity","im registered");
+
 		setContentView(R.layout.activity_main);		
 		DisplayMetrics displaymetrics = new DisplayMetrics();
 
@@ -109,8 +113,8 @@ public class MainActivity extends Activity {
 				startActivity(intent);
 			}
 		});
-		
-		
+
+
 		workshop.setOnClickListener(new View.OnClickListener() {
 
 			@Override
@@ -120,8 +124,9 @@ public class MainActivity extends Activity {
 				startActivity(intent);
 			}
 		});
-
 	}
+
+
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {

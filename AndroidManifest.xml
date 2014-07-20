@@ -8,13 +8,15 @@
         android:minSdkVersion="11"
         android:targetSdkVersion="18" />
 
+    <uses-permission android:name="android.permission.INTERNET"/>
+    
     <application
         android:name="com.androtailored.belikeastampuser.util.ProjectData"
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:theme="@style/Theme.myTheme.Baniere" >
         <activity
-            android:name="com.androtailored.belikeastampuser.activities.MainActivity"
+            android:name="com.androtailored.belikeastampuser.activities.FirstConnectionActivity"
             android:label="@string/empty"
             android:launchMode="singleTop"
             android:screenOrientation="portrait" >
@@ -25,7 +27,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.androtailored.belikeastampuser.activities.FirstConnectionActivity"
+            android:name="com.androtailored.belikeastampuser.activities.MainActivity"
             android:label="@string/empty"
             android:launchMode="singleTop"
             android:screenOrientation="portrait" >

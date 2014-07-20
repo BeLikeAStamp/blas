@@ -20,10 +20,14 @@
     <string name="firstname">Prénom</string>
     <string name="name">Nom</string>
     <string name="email">Email</string>
+    <string name="tel">N° de portable</string>
     <string name="btn_register">S\'enregistrer</string>
     <string name="first_cxn">Première connexion</string>
     <string name="new_psswd">Nouveau mot de passe</string>
     <string name="confirm_psswd">Confirmer mot de passe</string>
+    <string name="warning_reg">Quelques infos manquantes &#8230;</string>
+    <string name="reg_failed">Echec de l\'enregistrement</string>
+    <string name="reg_succed">Enregistrement effectué ! Let\'s GO !</string>
     <string name="memoriser">Mémoriser</string>
     <string name="btn_record">Enregistrer</string>
     <string name="project_explane">Helllooo ! Nous avons besoin de quelques précisions pour bien définir le projet : type de cartes, thème, couleurs, délais, personnalisation &#8230;</string>
