@@ -1,22 +1,36 @@
 package com.androtailored.belikeastampuser.activities;
 
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.ExecutionException;
+
+import android.accounts.Account;
+import android.accounts.AccountManager;
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.res.Resources.NotFoundException;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemSelectedListener;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.androtailored.belikeastampuser.R;
 import com.androtailored.belikeastampuser.db.dao.ProjectsData;
-import com.androtailored.belikeastampuser.db.model.Project;
+import com.androtailored.belikeastampuser.db.model.User;
 import com.androtailored.belikeastampuser.util.ProjectData;
+import com.androtailored.belikeastampuser.util.UserController;
 
 public class SubmissionActivity extends Activity {
 	private Button envoyer;
@@ -31,7 +45,11 @@ public class SubmissionActivity extends Activity {
 	private ImageView color2;
 	private ImageView color3;
 	private EditText projectName;
+	private Spinner emailSpinner;
 	private ProjectsData datasource;
+	private String userEmail;
+	private Long id;
+
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -54,6 +72,8 @@ public class SubmissionActivity extends Activity {
 		perso = (TextView) findViewById(R.id.perso);
 
 		projectName = (EditText) findViewById(R.id.project_name);
+		emailSpinner= (Spinner) findViewById(R.id.email);
+		getUserEmail();
 
 		cardType.setText(" : "+globalVariable.getProjectType());
 		cardTheme.setText(" : "+globalVariable.getProjectTheme());
@@ -71,7 +91,7 @@ public class SubmissionActivity extends Activity {
 		color = globalVariable.getColor3();
 		if (color != -1)
 			color3.setBackgroundResource(color);
-		
+
 		envoyer.setOnClickListener(new View.OnClickListener() {
 
 			@Override
@@ -85,9 +105,17 @@ public class SubmissionActivity extends Activity {
 					 */
 
 					// 1.Ajout du projet sur serveur distant
-
-
-
+					// essayer de recuperer l'id user
+					if(isRegistred()) {
+						Log.d("already registerd ", ""+id);
+					}
+					else
+					{
+						Log.d("registration", "not reg");
+						registration();
+						Log.d("after regitration ", ""+id);
+					}
+					/*
 					//2.Envoie du mail à Rachel
 					String email = "lemacon.audrey@gmail.com";
 					StringBuffer content = new StringBuffer();
@@ -98,8 +126,8 @@ public class SubmissionActivity extends Activity {
 					content.append("how many cards : "+globalVariable.getNumberOfCards());
 					content.append("nedded for : "+globalVariable.getOrderDate());
 					content.append("personnalisation : "+(globalVariable.getPerso() == null ? "anonymous" : globalVariable.getPerso() ));
-					
-					
+
+
 					Intent sendEmailIntent = new Intent(Intent.ACTION_SEND);
 					sendEmailIntent.putExtra(Intent.EXTRA_EMAIL, new String[]{email});		  
 					sendEmailIntent.putExtra(Intent.EXTRA_SUBJECT, "[BLAS] Soumission projet");
@@ -107,7 +135,7 @@ public class SubmissionActivity extends Activity {
 					sendEmailIntent.setType("message/rfc822");
 					try {
 						startActivity(Intent.createChooser(sendEmailIntent, "Choose an Email client :"));
-						
+
 						Log.i("Finished sending email...", "");
 					} catch (android.content.ActivityNotFoundException ex) {
 						Toast.makeText(getApplicationContext(), "There is no email client installed.", Toast.LENGTH_SHORT).show();
@@ -130,8 +158,8 @@ public class SubmissionActivity extends Activity {
 
 
 					Toast.makeText(getApplicationContext(), "GO !", Toast.LENGTH_SHORT).show();
-					//Intent intent = new Intent(SubmissionActivity.this,ProjectManagerActivity.class);
-					//startActivity(intent);
+					Intent intent = new Intent(SubmissionActivity.this,ProjectManagerActivity.class);
+					startActivity(intent);*/
 				}
 
 			}
@@ -151,6 +179,127 @@ public class SubmissionActivity extends Activity {
 	}
 
 
+	private void getUserEmail() {
+
+		Account[] accounts = AccountManager.get(SubmissionActivity.this).getAccountsByType("com.google");
+		final List<String> items =  new ArrayList<String>();
+
+		for (int i = 0; i < accounts.length; i++)
+			items.add(accounts[i].name);
+
+		ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item,items);
+		dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+		emailSpinner.setAdapter(dataAdapter);
+		emailSpinner.setOnItemSelectedListener(new OnItemSelectedListener() {
+
+			@Override
+			public void onItemSelected(AdapterView<?> arg0, View arg1,
+					int arg2, long arg3) {
+				// TODO Auto-generated method stub
+				userEmail = (String)arg0.getSelectedItem(); 
+			}
+
+			@Override
+			public void onNothingSelected(AdapterView<?> arg0) {
+				// TODO Auto-generated method stub
+			}
+
+		});
+	}
+
+
+	private Boolean isRegistred() {
+		// TODO Auto-generated method stub
+		id = getSharedPreferences("BLAS_USER", MODE_PRIVATE).getLong("user_id", Long.valueOf(-1));
+		return (!(id.equals(Long.valueOf(-1))));
+	}
+
+	private void registration() {
+		// TODO Auto-generated method stub
+		Log.d("registration","go to AddUserTask");
+		User user =  new User(userEmail);
+		try {
+			if(new AddUserTask().execute(user).get())
+			{
+				Toast.makeText(getApplicationContext(), R.string.reg_succed, Toast.LENGTH_SHORT).show();
+				getSharedPreferences("BLAS_USER", MODE_PRIVATE).edit().putLong("user_id", id).commit();
+				Intent i = new Intent(getApplicationContext(), MainActivity.class);
+				//i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+				startActivity(i);
+			}
+			else
+			{
+				Toast.makeText(getApplicationContext(), R.string.reg_failed, Toast.LENGTH_SHORT).show();
+				//SubmissionActivity.this.finish();
+			}
+		} catch (NotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (ExecutionException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	
+	private class AddUserTask extends AsyncTask<User, Void, Boolean> {
+		ProgressDialog progress;
+
+		@Override
+		protected Boolean doInBackground(User... params) {
+			// TODO Auto-generated method stub
+			Log.d("AddUserTask","doInBackground");
+			User u = params[0];
+			u.setFirstname("");
+			u.setName("");
+			u.setPhone("");
+			u.setAddress("");
+			u.setIsHost(false);
+			u.setIsPartener(false);
+
+			final UserController c = new UserController();
+			try {
+				// check user id d'abord...
+				id = c.getUserId(u.getEmail());
+				if(id.equals(Long.valueOf(-1))) {
+					Log.d("addUser", "unknown user");
+					c.create(u);
+					id = c.getUserId(u.getEmail());
+					Log.d("addUser", "user id = "+id);
+				}
+				else
+					Log.d("addUser", "already known user");
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+
+			if(id.equals(Long.valueOf(-1)))
+				return false;
+			else
+				return true;
+		}
+
+		protected void onPreExecute() {
+
+			progress = new ProgressDialog(SubmissionActivity.this);
+			progress.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+			progress.setMessage("Attends 2 min !!!");
+			progress.show();
+		} 
+
+		protected void onPostExecute(Boolean b) {
+
+			if (progress.isShowing()) {
+				progress.dismiss();
+			}
+		} 
+	}
+	
+	
+
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
@@ -158,9 +307,9 @@ public class SubmissionActivity extends Activity {
 		return true;
 	}
 
-	@Override
+	/*@Override
 	public void onBackPressed() {
 		Intent intent = new Intent(SubmissionActivity.this,PersonnalizationActivity.class);
 		//startActivity(intent);
-	}
+	}*/
 }

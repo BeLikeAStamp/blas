@@ -3,10 +3,14 @@
 
     <string name="app_name">BeLikeAStamp</string>
     <string name="action_settings">Settings</string>
+    <string name="select_account">Choisir le compte de connexion</string>
     <string name="hello_world">Hello world!</string>
     <string name="in_progress_project">Projets en cours</string>
     <string name="btn_new_project">Nouveau projet</string>
     <string name="btn_welcome">Accueil</string>
+    <string name="quit">Quitter</string>
+    <string name="welcome">Bienvenue !</string>
+    <string name="see_u">A bientôt !</string>
     <string name="btn_go">GO !</string>
     <string name="btn_connect">Se connecter</string>
     <string name="btn_registration">S\'inscrire</string>
@@ -19,6 +23,7 @@
     <string name="btn_workshop_reg">Atelier</string>
     <string name="firstname">Prénom</string>
     <string name="name">Nom</string>
+    <string name="confirm_email">Email contact</string>
     <string name="email">Email</string>
     <string name="tel">N° de portable</string>
     <string name="btn_register">S\'enregistrer</string>

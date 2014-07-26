@@ -1,8 +1,15 @@
 package com.androtailored.belikeastampuser.activities;
 
+import android.accounts.Account;
+import android.accounts.AccountManager;
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.util.Log;
@@ -10,8 +17,12 @@ import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.androtailored.belikeastampuser.R;
+import com.androtailored.belikeastampuser.db.model.User;
+import com.androtailored.belikeastampuser.util.UserController;
 
 public class MainActivity extends Activity {
 
@@ -20,19 +31,22 @@ public class MainActivity extends Activity {
 	private Button workshop;
 	private Button join;
 	private Button blog;
-	private Button scrap;
+	private ImageView avatar;
+	//private Button scrap;
+	private String userEmail = "";
+	private Long id;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-
-
-		Log.i("MainActivity","im registered");
-
+	
+		id = getSharedPreferences("BLAS_USER", MODE_PRIVATE).getLong("user_id", Long.valueOf(-1));
+		Log.i("MainActivity","user id = "+id);
+		
 		setContentView(R.layout.activity_main);		
 		DisplayMetrics displaymetrics = new DisplayMetrics();
 
-		String scrapDef = "Bonjour à tous et à toutes !\nJe m'appelle Rachel et " +
+		final String scrapDef = "Bonjour à tous et à toutes !\nJe m'appelle Rachel et " +
 				"je suis ravie de vous accueillir sur ma nouvelle application." +
 				"Si vous désirez me proposer des projets de réalisations personalisées, " +
 				"participer à un atelier, partager votre passion, " +
@@ -49,7 +63,7 @@ public class MainActivity extends Activity {
 		workshop = (Button) findViewById(R.id.workshop);
 		join = (Button) findViewById(R.id.team);
 		blog = (Button) findViewById(R.id.blog);
-		scrap = (Button) findViewById(R.id.scrap);
+		avatar = (ImageView) findViewById(R.id.avatar);
 
 		ViewGroup.LayoutParams params = project.getLayoutParams();
 		params.height = height_factor;		
@@ -66,11 +80,20 @@ public class MainActivity extends Activity {
 		params.width = height_factor;
 		workshop.setLayoutParams(params);
 
-		params = scrap.getLayoutParams();
+		avatar.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				Toast.makeText(getApplicationContext(),scrapDef, Toast.LENGTH_LONG).show();
+			}
+		});
+		
+	/*	params = scrap.getLayoutParams();
 		params.height = height_factor*3;		
 		params.width = height_factor*3;
 		scrap.setLayoutParams(params);
-		scrap.setText(scrapDef);
+		scrap.setText(scrapDef);*/
 
 		params = blog.getLayoutParams();
 		params.height = height_factor*4/5;		
@@ -125,8 +148,6 @@ public class MainActivity extends Activity {
 			}
 		});
 	}
-
-
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {

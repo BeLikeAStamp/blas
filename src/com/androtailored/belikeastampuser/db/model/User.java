@@ -18,7 +18,13 @@ public class User implements Serializable {
 	private Boolean isHost;
 	
 	public User() {}
-
+	
+	public User(String email) {
+		super();
+		this.email = email;
+	}
+	
+	
 	public User(String firstname, String name, String phone, String email) {
 		super();
 		this.firstname = firstname;

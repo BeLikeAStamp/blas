@@ -51,13 +51,22 @@
         android:layout_weight="3"
         android:orientation="horizontal" >
 
-        <Button
+        <ImageView
+            android:id="@+id/avatar"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:contentDescription="@string/btn_welcome"
+            android:src="@drawable/rachou" />
+
+        <!--
+              <Button
             android:id="@+id/scrap"
             style="@style/btnStyleRoundWhite"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:layout_centerVertical="true" />
+        -->
     </RelativeLayout>
 
     <RelativeLayout
