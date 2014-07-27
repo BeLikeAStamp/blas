@@ -1,7 +1,7 @@
 package com.androtailored.belikeastampuser.activities;
 
 import java.util.List;
-
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
@@ -14,7 +14,6 @@ import android.widget.Button;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
-
 import com.androtailored.belikeastampuser.R;
 import com.androtailored.belikeastampuser.db.DatabaseHandler;
 import com.androtailored.belikeastampuser.db.dao.ProjectsData;
@@ -25,6 +24,7 @@ public class ProjectManagerActivity extends Activity {
 	private Button welcome;
 	private ProjectsData datasource;
 
+	@SuppressLint("NewApi")
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -52,7 +52,7 @@ public class ProjectManagerActivity extends Activity {
 			tName.setTextColor(Color.DKGRAY);
 			tName.setTextSize(16);
 			tName.setGravity(Gravity.LEFT);
-			tName.setText(projet.getProject_name()+" ("+status[projet.getProject_status()]+")");
+			tName.setText(projet.getName()+" ("+status[projet.getStatus()]+")");
 			row.addView(tName);
 			
 			Button tDetails = new Button(getApplicationContext());

@@ -39,14 +39,14 @@ public class ProjectDetails extends Activity {
 		protolink = (TextView) findViewById(R.id.proto_link);
 		precedent = (Button) findViewById(R.id.prev);
 		
-		projectName.setText(project.getProject_name());
+		projectName.setText(project.getName());
 		type.setText(project.getType());
 		theme.setText(project.getTheme());
-		nbrCards.setText(""+project.getNbr_cards());
-		orderDate.setText(project.getOrder_date());
+		nbrCards.setText(""+project.getQuantity());
+		orderDate.setText(project.getOrderDate());
 		
 
-		if(project.getProject_status() >= DatabaseHandler.PROTO_PENDING) {
+		if(project.getStatus() >= DatabaseHandler.PROTO_PENDING) {
 			// RECUPERATION DE LIMAGE EN BACKGROUND
 			protolink.setText("Lien!");
 		}
@@ -56,7 +56,7 @@ public class ProjectDetails extends Activity {
 		}
 		
 		
-		progress.setCompoundDrawablesWithIntrinsicBounds(0,0,0,getStatusImg(project.getProject_status()));
+		progress.setCompoundDrawablesWithIntrinsicBounds(0,0,0,getStatusImg(project.getStatus()));
 		
 		progress.setOnClickListener(new View.OnClickListener() {
 			

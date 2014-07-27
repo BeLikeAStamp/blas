@@ -28,7 +28,9 @@ import android.widget.Toast;
 
 import com.androtailored.belikeastampuser.R;
 import com.androtailored.belikeastampuser.db.dao.ProjectsData;
+import com.androtailored.belikeastampuser.db.model.Project;
 import com.androtailored.belikeastampuser.db.model.User;
+import com.androtailored.belikeastampuser.util.ProjectController;
 import com.androtailored.belikeastampuser.util.ProjectData;
 import com.androtailored.belikeastampuser.util.UserController;
 
@@ -49,7 +51,8 @@ public class SubmissionActivity extends Activity {
 	private ProjectsData datasource;
 	private String userEmail;
 	private Long id;
-
+	private Long pid;
+	private ProgressDialog pd;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -99,22 +102,41 @@ public class SubmissionActivity extends Activity {
 				if(projectName.getText().toString().length() == 0)
 					Toast.makeText(getApplicationContext(), "Merci d'indiquer le nom du projet ", Toast.LENGTH_SHORT).show();
 				else {
-
+					
+					envoyer.setEnabled(false);
 					/*
 					 * Comment faire ça en transactionnel ?????
 					 */
-
+					
+					// 0.Creation d'un project
+					Project p = new Project(projectName.getText().toString(), 
+							globalVariable.getSubmitDate(), 0, globalVariable.getProjectTheme(),
+							globalVariable.getProjectType(), globalVariable.getOrderDate(),
+							Integer.valueOf(globalVariable.getNumberOfCards()),
+							(globalVariable.getPerso() == null ? "anonymous" : globalVariable.getPerso().toString()));
+					
 					// 1.Ajout du projet sur serveur distant
-					// essayer de recuperer l'id user
+					// 1.1 essayer de recuperer l'id user ou l'enregistrer sur la db
+
+					new WaitTask().execute();
+					
 					if(isRegistred()) {
-						Log.d("already registerd ", ""+id);
+						Log.d("Submission", "is reg "+id);
 					}
 					else
 					{
-						Log.d("registration", "not reg");
+						Log.d("Submission", "not reg");
 						registration();
-						Log.d("after regitration ", ""+id);
+						Log.d("Submission", "after reg "+id);
 					}
+
+					if(isRegistred()) {
+						Log.d("Submission", "project registration");
+						pid = Long.valueOf(-1);
+						AddProjectTask task = new AddProjectTask();
+						task.execute(p);
+					}
+
 					/*
 					//2.Envoie du mail à Rachel
 					String email = "lemacon.audrey@gmail.com";
@@ -160,6 +182,8 @@ public class SubmissionActivity extends Activity {
 					Toast.makeText(getApplicationContext(), "GO !", Toast.LENGTH_SHORT).show();
 					Intent intent = new Intent(SubmissionActivity.this,ProjectManagerActivity.class);
 					startActivity(intent);*/
+
+
 				}
 
 			}
@@ -211,21 +235,23 @@ public class SubmissionActivity extends Activity {
 	private Boolean isRegistred() {
 		// TODO Auto-generated method stub
 		id = getSharedPreferences("BLAS_USER", MODE_PRIVATE).getLong("user_id", Long.valueOf(-1));
+		Log.d("Submission", "USER ID "+id);
 		return (!(id.equals(Long.valueOf(-1))));
 	}
 
 	private void registration() {
 		// TODO Auto-generated method stub
-		Log.d("registration","go to AddUserTask");
+		Log.d("Submission","go to AddUserTask");
 		User user =  new User(userEmail);
 		try {
+			Log.d("Submission", "registration "+id);
 			if(new AddUserTask().execute(user).get())
 			{
 				Toast.makeText(getApplicationContext(), R.string.reg_succed, Toast.LENGTH_SHORT).show();
 				getSharedPreferences("BLAS_USER", MODE_PRIVATE).edit().putLong("user_id", id).commit();
-				Intent i = new Intent(getApplicationContext(), MainActivity.class);
+				//Intent i = new Intent(getApplicationContext(), ProjectManagerActivity.class);
 				//i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-				startActivity(i);
+				//startActivity(i);
 			}
 			else
 			{
@@ -243,15 +269,53 @@ public class SubmissionActivity extends Activity {
 			e.printStackTrace();
 		}
 	}
-	
+
+
+	private class WaitTask extends AsyncTask<Void, Void, Void> {
+
+		protected void onPreExecute() {
+			super.onPreExecute();
+			Log.i("Submission", "WaitTask onPreExecute");
+			pd = new ProgressDialog(SubmissionActivity.this);
+			pd.setTitle("Processing...");
+			pd.setMessage("Please wait.");
+			pd.setCancelable(false);
+			pd.setIndeterminate(true);
+			pd.show();
+		} 
+		
+		@Override
+		protected Void doInBackground(Void... params) {
+			// TODO Auto-generated method stub
+			try {
+				Thread.sleep(3000);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			return null;
+		}
+		
+		protected void onPostExecute(Void unused) {
+			super.onPostExecute(unused);
+			Log.i("Submission", "WaitTask onPostExecute");
+			if (pd!=null) {
+				pd.dismiss();
+				envoyer.setEnabled(true);
+			}
+		} 
+		
+	}
 	
 	private class AddUserTask extends AsyncTask<User, Void, Boolean> {
-		ProgressDialog progress;
+
+		
 
 		@Override
 		protected Boolean doInBackground(User... params) {
 			// TODO Auto-generated method stub
-			Log.d("AddUserTask","doInBackground");
+			Log.d("Submission","AddUserTask doInBackground");
+			
 			User u = params[0];
 			u.setFirstname("");
 			u.setName("");
@@ -262,43 +326,46 @@ public class SubmissionActivity extends Activity {
 
 			final UserController c = new UserController();
 			try {
+
 				// check user id d'abord...
 				id = c.getUserId(u.getEmail());
 				if(id.equals(Long.valueOf(-1))) {
-					Log.d("addUser", "unknown user");
+					Log.d("Submission", "AddUserTask unknown user");
 					c.create(u);
 					id = c.getUserId(u.getEmail());
-					Log.d("addUser", "user id = "+id);
+					Log.d("Submission", "AddUserTask user id = "+id);
 				}
 				else
-					Log.d("addUser", "already known user");
+					Log.d("Submission", "AddUserTask already known user : "+id);
+				
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-
-			if(id.equals(Long.valueOf(-1)))
-				return false;
-			else
-				return true;
-		}
-
-		protected void onPreExecute() {
-
-			progress = new ProgressDialog(SubmissionActivity.this);
-			progress.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
-			progress.setMessage("Attends 2 min !!!");
-			progress.show();
-		} 
-
-		protected void onPostExecute(Boolean b) {
-
-			if (progress.isShowing()) {
-				progress.dismiss();
-			}
-		} 
+			return (!(id.equals(Long.valueOf(-1))));
+		}	
 	}
-	
-	
+
+	private class AddProjectTask extends AsyncTask<Project, Void, Boolean> {
+
+
+		@Override
+		protected Boolean doInBackground(Project... params) {
+			// TODO Auto-generated method stub
+			Log.d("Submission","AddProjectTask doInBackground");
+			Project p = params[0];
+
+			final ProjectController c = new ProjectController();
+			try {
+				Log.d("Submission","card = "+p.getQuantity());
+				c.create(p,id);
+				pid = c.getProjectRemoteId(p.getName(), id);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			
+			return (!(pid.equals(Long.valueOf(-1))));
+		}
+	}
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
@@ -307,9 +374,19 @@ public class SubmissionActivity extends Activity {
 		return true;
 	}
 
+	@Override 
+	protected void onDestroy() {
+		if (pd!=null) {
+			pd.dismiss();
+			envoyer.setEnabled(true);
+			super.onDestroy();
+		}
+	}
+
+
 	/*@Override
 	public void onBackPressed() {
 		Intent intent = new Intent(SubmissionActivity.this,PersonnalizationActivity.class);
 		//startActivity(intent);
 	}*/
-}
+}	

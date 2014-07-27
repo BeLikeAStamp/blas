@@ -9,82 +9,116 @@ public class Project implements Serializable {
 	 */
 	private static final long serialVersionUID = -8213396978710850752L;
 
-	private String project_name;
-	private String sub_date;
-	private int project_status;
+	private String name;
+	private String subDate;
 	private String theme;
 	private String type;
-	private String order_date;
-	private int nbr_cards;
-	private int remoteId;
+	private String orderDate;
+	private String path_to_prototype;
+	private String perso;
+	private int status;
+	private int quantity;
+	private Long remoteId;
 
 	public Project() {}
 
 
 
 	public Project(String project_name, String sub_date, int project_status,
-			String theme, String type, String order_date, int nbr_cards) {
+			String theme, String type, String order_date, int nbr_cards, String perso) {
 		super();
-		this.project_name = project_name;
-		this.sub_date = sub_date;
-		this.project_status = project_status;
+		this.name = project_name;
+		this.subDate = sub_date;
+		this.status = project_status;
 		this.theme = theme;
 		this.type = type;
-		this.order_date = order_date;
-		this.nbr_cards = nbr_cards;
+		this.orderDate = order_date;
+		this.quantity = nbr_cards;
+		this.perso = perso;
 	}
 
+	public String getName() {
+		return name;
+	}
 
+	public void setName(String name) {
+		this.name = name;
+	}
 
-	public String getProject_name() {
-		return project_name;
+	public String getSubDate() {
+		return subDate;
 	}
-	public void setProject_name(String project_name) {
-		this.project_name = project_name;
+
+	public void setSubDate(String subDate) {
+		this.subDate = subDate;
 	}
-	public String getSub_date() {
-		return sub_date;
-	}
-	public void setSub_date(String sub_date) {
-		this.sub_date = sub_date;
-	}
-	public int getProject_status() {
-		return project_status;
-	}
-	public void setProject_status(int project_status) {
-		this.project_status = project_status;
-	}
+
 	public String getTheme() {
 		return theme;
 	}
+
 	public void setTheme(String theme) {
 		this.theme = theme;
 	}
+
 	public String getType() {
 		return type;
 	}
+
 	public void setType(String type) {
 		this.type = type;
 	}
-	public String getOrder_date() {
-		return order_date;
+
+	public String getOrderDate() {
+		return orderDate;
 	}
-	public void setOrder_date(String order_date) {
-		this.order_date = order_date;
+
+	public void setOrderDate(String orderDate) {
+		this.orderDate = orderDate;
 	}
-	public int getNbr_cards() {
-		return nbr_cards;
+
+	public String getPath_to_prototype() {
+		return path_to_prototype;
 	}
-	public void setNbr_cards(int nbr_cards) {
-		this.nbr_cards = nbr_cards;
+
+	public void setPath_to_prototype(String path_to_prototype) {
+		this.path_to_prototype = path_to_prototype;
 	}
-	public int getRemoteId() {
+
+	public int getStatus() {
+		return status;
+	}
+
+	public void setStatus(int status) {
+		this.status = status;
+	}
+
+	public int getQuantity() {
+		return quantity;
+	}
+
+	public void setQuantity(int quantity) {
+		this.quantity = quantity;
+	}
+
+	public Long getRemoteId() {
 		return remoteId;
 	}
-	public void setRemoteId(int remoteId) {
+
+	public void setRemoteId(Long remoteId) {
 		this.remoteId = remoteId;
 	}
 
 
+
+	public String getPerso() {
+		return perso;
+	}
+
+
+
+	public void setPerso(String perso) {
+		this.perso = perso;
+	}
 
 }

@@ -37,13 +37,13 @@ public class ProjectsData {
 	public void addProjects(Project project) {
 		ContentValues values = new ContentValues();
 
-		values.put(DatabaseHandler.P_NAME, project.getProject_name());
-		values.put(DatabaseHandler.P_SUBDATE, project.getSub_date());
-		values.put(DatabaseHandler.P_STATUS, project.getProject_status());
+		values.put(DatabaseHandler.P_NAME, project.getName());
+		values.put(DatabaseHandler.P_SUBDATE, project.getSubDate());
+		values.put(DatabaseHandler.P_STATUS, project.getStatus());
 		values.put(DatabaseHandler.P_THEME, project.getTheme());
 		values.put(DatabaseHandler.P_TYPE, project.getType());
-		values.put(DatabaseHandler.P_ORDERDATA, project.getOrder_date());
-		values.put(DatabaseHandler.P_NBRCARDS, project.getNbr_cards());
+		values.put(DatabaseHandler.P_ORDERDATA, project.getOrderDate());
+		values.put(DatabaseHandler.P_NBRCARDS, project.getQuantity());
 
 		// Inserting Row
 		database.insert(DatabaseHandler.TABLE_PROJECTS, null, values);
@@ -99,7 +99,7 @@ public class ProjectsData {
 	    values.put(DatabaseHandler.P_REMOTEID, remoteId);
 		
 	    return database.update(DatabaseHandler.TABLE_PROJECTS, values, DatabaseHandler.P_NAME  + " = ?",
-	            new String[] { project.getProject_name() });
+	            new String[] { project.getName() });
 	}
 
 	public void deleteProject(String name) {
@@ -109,14 +109,14 @@ public class ProjectsData {
 
 	private Project cursorToProject(Cursor cursor) {
 		Project project = new Project();
-		project.setProject_name(cursor.getString(0));
-		project.setSub_date(cursor.getString(1));
+		project.setName(cursor.getString(0));
+		project.setSubDate(cursor.getString(1));
 		project.setTheme(cursor.getString(2));
 		project.setType(cursor.getString(3));
-		project.setOrder_date(cursor.getString(4));
-		project.setProject_status(cursor.getInt(5));
-		project.setNbr_cards(cursor.getInt(6));
-		project.setRemoteId(cursor.getInt(7));
+		project.setOrderDate(cursor.getString(4));
+		project.setStatus(cursor.getInt(5));
+		project.setQuantity(cursor.getInt(6));
+		project.setRemoteId(cursor.getLong(7));
 		return project;
 	}
 
