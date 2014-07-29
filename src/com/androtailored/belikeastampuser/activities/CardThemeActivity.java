@@ -184,9 +184,10 @@ public class CardThemeActivity extends Activity {
 		themes.put("Félicitations", new String[]{"fel1","fel2","Autre"});
 	}
 	
+	/*
 	@Override
 	public void onBackPressed() {
 	    Intent intent = new Intent(CardThemeActivity.this,ColorPaletteActivity.class);
-		//startActivity(intent);
-	}
+		startActivity(intent);
+	}*/
 }

@@ -16,6 +16,7 @@ public class Project implements Serializable {
 	private String orderDate;
 	private String path_to_prototype;
 	private String perso;
+	private String colors;
 	private int status;
 	private int quantity;
 	private Long remoteId;
@@ -119,6 +120,18 @@ public class Project implements Serializable {
 
 	public void setPerso(String perso) {
 		this.perso = perso;
+	}
+
+
+
+	public String getColors() {
+		return colors;
+	}
+
+
+
+	public void setColors(String colors) {
+		this.colors = colors;
 	}
 
 }

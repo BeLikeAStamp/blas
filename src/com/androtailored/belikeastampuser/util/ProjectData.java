@@ -7,7 +7,7 @@ import com.androtailored.belikeastampuser.R;
 
 public class ProjectData extends Application {
 
-	public SparseArray<String> colorName;
+	public static SparseArray<String> colorName;
 
 	private String projectTheme;
 	private String projectType;

@@ -120,4 +120,20 @@ public class ProjectsData {
 		return project;
 	}
 
+	public boolean checkUnicity(String name) {
+		Cursor cursor = database.query(DatabaseHandler.TABLE_PROJECTS, new String[] { 
+				DatabaseHandler.P_NAME, 
+				DatabaseHandler.P_SUBDATE,
+				DatabaseHandler.P_STATUS,
+				DatabaseHandler.P_THEME,
+				DatabaseHandler.P_TYPE,
+				DatabaseHandler.P_ORDERDATA,
+				DatabaseHandler.P_NBRCARDS,
+				DatabaseHandler.P_REMOTEID,
+		}, DatabaseHandler.P_NAME + "=?",
+		new String[] { name }, null, null, null, null);
+		
+		return (cursor.getCount() == 0);
+	}
+	
 }

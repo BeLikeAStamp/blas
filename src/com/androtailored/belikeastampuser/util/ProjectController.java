@@ -43,7 +43,7 @@ public class ProjectController {
 	private static final String TAG_PERSO = "perso";
 	private static final String TAG_STATUS = "status";
 	private static final String TAG_QUANTITY = "quantity";
-
+	private static final String TAG_COLORS = "colors";
 
 	public final ClientResource cr = new ClientResource(EngineConfiguration.path + "rest/project");
 
@@ -140,7 +140,8 @@ public class ProjectController {
 					String perso = c.getString(TAG_PERSO);
 					String status = c.getString(TAG_STATUS);
 					String quantity = c.getString(TAG_QUANTITY);
-
+					String colors = c.getString(TAG_COLORS);
+					
 					// tmp hashmap for single contact
 					HashMap<String, String> hash = new HashMap<String, String>();
 
@@ -154,11 +155,13 @@ public class ProjectController {
 					hash.put(TAG_PERSO, perso);
 					hash.put(TAG_STATUS, status);
 					hash.put(TAG_QUANTITY, quantity);
+					hash.put(TAG_COLORS, colors);
 					
 					// adding project to contact users list
 					Project p = new Project(name, subDate, Integer.valueOf(status), theme, type, orderDate, Integer.valueOf(quantity), perso);
 					
 					p.setRemoteId(Long.valueOf(id));
+					p.setColors(colors);
 					projects.add(p);
 				}
 			} catch (JSONException e) {
@@ -193,6 +196,7 @@ public class ProjectController {
 			params.add(new BasicNameValuePair("perso", p.getPerso()));
 			params.add(new BasicNameValuePair("status", ""+p.getStatus()));
 			params.add(new BasicNameValuePair("quantity", ""+p.getQuantity()));
+			params.add(new BasicNameValuePair("colors", ""+p.getColors()));
 			
 			OutputStream os = conn.getOutputStream();
 			BufferedWriter writer = new BufferedWriter(
@@ -242,7 +246,7 @@ public class ProjectController {
 			params.add(new BasicNameValuePair("perso", p.getPerso()));
 			params.add(new BasicNameValuePair("status", ""+p.getStatus()));
 			params.add(new BasicNameValuePair("quantity", ""+p.getQuantity()));
-			
+			params.add(new BasicNameValuePair("colors", ""+p.getColors()));
 			
 			OutputStream os = conn.getOutputStream();
 			BufferedWriter writer = new BufferedWriter(

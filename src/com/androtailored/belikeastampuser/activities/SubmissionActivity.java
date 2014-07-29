@@ -85,16 +85,31 @@ public class SubmissionActivity extends Activity {
 		when.setText(" "+globalVariable.getOrderDate());
 		perso.setText(" : "+(globalVariable.getPerso() == null ? "anonymous" : globalVariable.getPerso() ));
 
-		int color = globalVariable.getColor1();
-		if (color != -1)
-			color1.setBackgroundResource(color);
-		color = globalVariable.getColor2();
-		if (color != -1)
-			color2.setBackgroundResource(color);
-		color = globalVariable.getColor3();
-		if (color != -1)
-			color3.setBackgroundResource(color);
+		final StringBuffer colors = new StringBuffer();
 
+		int color = globalVariable.getColor1();
+		if (color != -1) {
+			color1.setBackgroundResource(color);
+			colors.append(ProjectData.colorName.get(color));
+			Log.d("Submission", "col 1 "+colors.toString());
+		}
+		
+		color = globalVariable.getColor2();
+		if (color != -1) {
+			color2.setBackgroundResource(color);
+			colors.append(";"+ProjectData.colorName.get(color));
+			Log.d("Submission","col 2 "+ colors.toString());
+		}
+		
+		color = globalVariable.getColor3();
+		if (color != -1) {
+			color3.setBackgroundResource(color);
+			colors.append(";"+ProjectData.colorName.get(color));
+			Log.d("Submission", "col 3 "+colors.toString());
+		}
+		
+		
+		Log.d("Submission", colors.toString());
 		envoyer.setOnClickListener(new View.OnClickListener() {
 
 			@Override
@@ -102,42 +117,61 @@ public class SubmissionActivity extends Activity {
 				if(projectName.getText().toString().length() == 0)
 					Toast.makeText(getApplicationContext(), "Merci d'indiquer le nom du projet ", Toast.LENGTH_SHORT).show();
 				else {
-					
-					envoyer.setEnabled(false);
-					/*
-					 * Comment faire ça en transactionnel ?????
-					 */
-					
-					// 0.Creation d'un project
-					Project p = new Project(projectName.getText().toString(), 
-							globalVariable.getSubmitDate(), 0, globalVariable.getProjectTheme(),
-							globalVariable.getProjectType(), globalVariable.getOrderDate(),
-							Integer.valueOf(globalVariable.getNumberOfCards()),
-							(globalVariable.getPerso() == null ? "anonymous" : globalVariable.getPerso().toString()));
-					
-					// 1.Ajout du projet sur serveur distant
-					// 1.1 essayer de recuperer l'id user ou l'enregistrer sur la db
+					// 0. Check en interne si un projet du meme non n'existe pas
+					datasource = new ProjectsData(getApplicationContext());
+					datasource.open();
 
-					new WaitTask().execute();
-					
-					if(isRegistred()) {
-						Log.d("Submission", "is reg "+id);
-					}
-					else
-					{
-						Log.d("Submission", "not reg");
-						registration();
-						Log.d("Submission", "after reg "+id);
-					}
+					if (datasource.checkUnicity(projectName.getText().toString())) {
+						envoyer.setEnabled(false);
+						/*
+						 * Comment faire ça en transactionnel ?????
+						 */
 
-					if(isRegistred()) {
-						Log.d("Submission", "project registration");
-						pid = Long.valueOf(-1);
-						AddProjectTask task = new AddProjectTask();
-						task.execute(p);
-					}
+						// 1. Creation d'un project
+						Project p = new Project(projectName.getText().toString(), 
+								globalVariable.getSubmitDate(), 0, globalVariable.getProjectTheme(),
+								globalVariable.getProjectType(), globalVariable.getOrderDate(),
+								Integer.valueOf(globalVariable.getNumberOfCards()),
+								(globalVariable.getPerso() == null ? "anonymous" : globalVariable.getPerso().toString()));
 
-					/*
+						p.setColors(colors.toString());
+						
+						// 2.Ajout du projet sur serveur distant
+						// 2.1 essayer de recuperer l'id user ou l'enregistrer sur la db
+
+						new WaitTask().execute();
+
+						if(isRegistred()) {
+							Log.d("Submission", "is reg "+id);
+						}
+						else
+						{
+							Log.d("Submission", "not reg");
+							registration();
+							Log.d("Submission", "after reg "+id);
+						}
+
+						if(isRegistred()) {
+
+							Log.d("Submission", "project registration");
+							pid = Long.valueOf(-1);
+							AddProjectTask task = new AddProjectTask();
+							task.execute(p);
+							Log.d("Submission", "after project registration : "+pid);
+							p.setRemoteId(pid);
+							
+							//3.ajout du projet du projet dans la base interne
+							datasource.addProjects(p);
+							datasource.close();
+
+							Toast.makeText(getApplicationContext(), "GO !", Toast.LENGTH_SHORT).show();
+							Intent intent = new Intent(SubmissionActivity.this,ProjectManagerActivity.class);
+							startActivity(intent);
+
+						}
+
+						
+						/*
 					//2.Envoie du mail à Rachel
 					String email = "lemacon.audrey@gmail.com";
 					StringBuffer content = new StringBuffer();
@@ -161,29 +195,14 @@ public class SubmissionActivity extends Activity {
 						Log.i("Finished sending email...", "");
 					} catch (android.content.ActivityNotFoundException ex) {
 						Toast.makeText(getApplicationContext(), "There is no email client installed.", Toast.LENGTH_SHORT).show();
+					}*/
+
+
 					}
-
-
-
-					//3.ajout du projet du projet dans la base interne
-					datasource = new ProjectsData(getApplicationContext());
-					datasource.open();
-
-					datasource.addProjects(new Project(projectName.getText().toString(), 
-							globalVariable.getOrderDate(),0, 
-							globalVariable.getProjectTheme(),
-							globalVariable.getProjectType(),
-							globalVariable.getSubmitDate(),
-							Integer.valueOf(globalVariable.getNumberOfCards())));
-
-					datasource.close();
-
-
-					Toast.makeText(getApplicationContext(), "GO !", Toast.LENGTH_SHORT).show();
-					Intent intent = new Intent(SubmissionActivity.this,ProjectManagerActivity.class);
-					startActivity(intent);*/
-
-
+					else 
+					{
+						Toast.makeText(getApplicationContext(), "Ce nom de projet existe déjà ! Il faut innover ;-)", Toast.LENGTH_SHORT).show();
+					}
 				}
 
 			}
@@ -283,7 +302,7 @@ public class SubmissionActivity extends Activity {
 			pd.setIndeterminate(true);
 			pd.show();
 		} 
-		
+
 		@Override
 		protected Void doInBackground(Void... params) {
 			// TODO Auto-generated method stub
@@ -295,7 +314,7 @@ public class SubmissionActivity extends Activity {
 			}
 			return null;
 		}
-		
+
 		protected void onPostExecute(Void unused) {
 			super.onPostExecute(unused);
 			Log.i("Submission", "WaitTask onPostExecute");
@@ -304,18 +323,18 @@ public class SubmissionActivity extends Activity {
 				envoyer.setEnabled(true);
 			}
 		} 
-		
+
 	}
-	
+
 	private class AddUserTask extends AsyncTask<User, Void, Boolean> {
 
-		
+
 
 		@Override
 		protected Boolean doInBackground(User... params) {
 			// TODO Auto-generated method stub
 			Log.d("Submission","AddUserTask doInBackground");
-			
+
 			User u = params[0];
 			u.setFirstname("");
 			u.setName("");
@@ -337,7 +356,7 @@ public class SubmissionActivity extends Activity {
 				}
 				else
 					Log.d("Submission", "AddUserTask already known user : "+id);
-				
+
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -356,13 +375,12 @@ public class SubmissionActivity extends Activity {
 
 			final ProjectController c = new ProjectController();
 			try {
-				Log.d("Submission","card = "+p.getQuantity());
 				c.create(p,id);
 				pid = c.getProjectRemoteId(p.getName(), id);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-			
+
 			return (!(pid.equals(Long.valueOf(-1))));
 		}
 	}

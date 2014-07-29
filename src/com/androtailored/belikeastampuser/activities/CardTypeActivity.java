@@ -63,9 +63,11 @@ public class CardTypeActivity extends Activity {
 		return true;
 	}
 
+	/*
 	@Override
 	public void onBackPressed() {
 		Intent intent = new Intent(CardTypeActivity.this,ProjectManagerActivity.class);
 		//startActivity(intent);
 	}
+	*/
 }

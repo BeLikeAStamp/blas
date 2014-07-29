@@ -162,9 +162,10 @@ public class PersonnalizationActivity extends Activity {
 		return true;
 	}
 	
+	/*
 	@Override
 	public void onBackPressed() {
 	    Intent intent = new Intent(PersonnalizationActivity.this,CardThemeActivity.class);
 		//startActivity(intent);
-	}
+	}*/
 }
