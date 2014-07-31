@@ -8,7 +8,9 @@ import java.util.concurrent.ExecutionException;
 import android.accounts.Account;
 import android.accounts.AccountManager;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Resources.NotFoundException;
 import android.os.AsyncTask;
@@ -22,6 +24,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -37,6 +40,7 @@ import com.androtailored.belikeastampuser.util.UserController;
 public class SubmissionActivity extends Activity {
 	private Button envoyer;
 	private Button precedent;
+	private Button enregistrer;
 	private TextView cardType;
 	private TextView cardTheme;
 	private TextView cardStyle;
@@ -46,22 +50,26 @@ public class SubmissionActivity extends Activity {
 	private ImageView color1;
 	private ImageView color2;
 	private ImageView color3;
+	private EditText infos;
 	private EditText projectName;
 	private Spinner emailSpinner;
 	private ProjectsData datasource;
+	private LinearLayout emailLayout;
 	private String userEmail;
 	private Long id;
 	private Long pid;
 	private ProgressDialog pd;
+	private ProjectData globalVariable;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.project_submission_sumup);
-		final ProjectData globalVariable = (ProjectData) getApplicationContext();
+		globalVariable = (ProjectData) getApplicationContext();
 
 		envoyer = (Button) findViewById(R.id.send);
 		precedent = (Button) findViewById(R.id.prev);
+		enregistrer = (Button) findViewById(R.id.reg);
 
 		color1 = (ImageView) findViewById(R.id.selected_color1);
 		color2 = (ImageView) findViewById(R.id.selected_color2);
@@ -74,9 +82,11 @@ public class SubmissionActivity extends Activity {
 		when = (TextView) findViewById(R.id.date);
 		perso = (TextView) findViewById(R.id.perso);
 
+		emailLayout = (LinearLayout)findViewById(R.id.layout);
+		infos =  (EditText) findViewById(R.id.infos);
 		projectName = (EditText) findViewById(R.id.project_name);
 		emailSpinner= (Spinner) findViewById(R.id.email);
-		getUserEmail();
+
 
 		cardType.setText(" : "+globalVariable.getProjectType());
 		cardTheme.setText(" : "+globalVariable.getProjectTheme());
@@ -91,25 +101,68 @@ public class SubmissionActivity extends Activity {
 		if (color != -1) {
 			color1.setBackgroundResource(color);
 			colors.append(ProjectData.colorName.get(color));
-			Log.d("Submission", "col 1 "+colors.toString());
 		}
-		
+
 		color = globalVariable.getColor2();
 		if (color != -1) {
 			color2.setBackgroundResource(color);
 			colors.append(";"+ProjectData.colorName.get(color));
-			Log.d("Submission","col 2 "+ colors.toString());
 		}
-		
+
 		color = globalVariable.getColor3();
 		if (color != -1) {
 			color3.setBackgroundResource(color);
 			colors.append(";"+ProjectData.colorName.get(color));
-			Log.d("Submission", "col 3 "+colors.toString());
 		}
-		
-		
-		Log.d("Submission", colors.toString());
+
+		if(!(isRegistred())) {
+			Log.d("Submission", "not reg");
+			emailLayout.setVisibility(View.VISIBLE);
+			userEmail = getUserEmail();
+		}
+
+		enregistrer.setOnClickListener(new View.OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				if(projectName.getText().toString().length() == 0)
+					Toast.makeText(getApplicationContext(), "Merci d'indiquer le nom du projet ", Toast.LENGTH_SHORT).show();
+				else {
+					// 0. Check en interne si un projet du meme non n'existe pas
+					datasource = new ProjectsData(getApplicationContext());
+					datasource.open();
+
+					if (datasource.checkUnicity(projectName.getText().toString())) {
+						envoyer.setEnabled(false);
+
+						// 1. Creation d'un project
+						Project p = new Project(projectName.getText().toString(), 
+								globalVariable.getSubmitDate(), -1, globalVariable.getProjectTheme(),
+								globalVariable.getProjectType(), globalVariable.getOrderDate(),
+								Integer.valueOf(globalVariable.getNumberOfCards()),
+								(globalVariable.getPerso() == null ? "anonymous" : globalVariable.getPerso().toString()));
+
+						p.setColors(colors.toString());
+
+						datasource.addProjects(p);
+						datasource.close();
+						
+						Toast.makeText(getApplicationContext(), "GO !", Toast.LENGTH_SHORT).show();
+						Intent intent = new Intent(SubmissionActivity.this,ProjectManagerActivity.class);
+						startActivity(intent);
+					}
+					else 
+					{
+						Toast.makeText(getApplicationContext(), "Ce nom de projet existe déjà ! Il faut innover ;-)", Toast.LENGTH_SHORT).show();
+					}
+
+				}
+
+			}
+		});
+
+
+
 		envoyer.setOnClickListener(new View.OnClickListener() {
 
 			@Override
@@ -135,69 +188,72 @@ public class SubmissionActivity extends Activity {
 								(globalVariable.getPerso() == null ? "anonymous" : globalVariable.getPerso().toString()));
 
 						p.setColors(colors.toString());
-						
+
 						// 2.Ajout du projet sur serveur distant
 						// 2.1 essayer de recuperer l'id user ou l'enregistrer sur la db
-
-						new WaitTask().execute();
-
-						if(isRegistred()) {
-							Log.d("Submission", "is reg "+id);
-						}
-						else
-						{
-							Log.d("Submission", "not reg");
-							registration();
-							Log.d("Submission", "after reg "+id);
-						}
 
 						if(isRegistred()) {
 
 							Log.d("Submission", "project registration");
 							pid = Long.valueOf(-1);
 							AddProjectTask task = new AddProjectTask();
-							task.execute(p);
-							Log.d("Submission", "after project registration : "+pid);
-							p.setRemoteId(pid);
-							
-							//3.ajout du projet du projet dans la base interne
-							datasource.addProjects(p);
-							datasource.close();
+							try {
+								if(task.execute(p).get()) {
+									Log.d("Submission", "after project registration : "+pid);
+									p.setRemoteId(pid);
 
-							Toast.makeText(getApplicationContext(), "GO !", Toast.LENGTH_SHORT).show();
-							Intent intent = new Intent(SubmissionActivity.this,ProjectManagerActivity.class);
-							startActivity(intent);
+									//3.ajout du projet du projet dans la base interne
+									datasource.addProjects(p);
+									datasource.close();
+
+									Toast.makeText(getApplicationContext(), "GO !", Toast.LENGTH_SHORT).show();
+									Intent intent = new Intent(SubmissionActivity.this,ProjectManagerActivity.class);
+									startActivity(intent);
+								}
+							} catch (InterruptedException e) {
+								// TODO Auto-generated catch block
+								e.printStackTrace();
+							} catch (ExecutionException e) {
+								// TODO Auto-generated catch block
+								e.printStackTrace();
+							}
+
 
 						}
+						else 
+						{
+							new WaitTask().execute();
+							registration(userEmail);
+							Log.d("Submission", "after reg "+id);
 
-						
-						/*
-					//2.Envoie du mail à Rachel
-					String email = "lemacon.audrey@gmail.com";
-					StringBuffer content = new StringBuffer();
-					content.append("project name : "+projectName.getText().toString());
-					content.append("card type : "+globalVariable.getProjectType());
-					content.append("card theme : "+globalVariable.getProjectTheme());
-					content.append("card style : "+globalVariable.getProjectStyle());
-					content.append("how many cards : "+globalVariable.getNumberOfCards());
-					content.append("nedded for : "+globalVariable.getOrderDate());
-					content.append("personnalisation : "+(globalVariable.getPerso() == null ? "anonymous" : globalVariable.getPerso() ));
+							if(isRegistred()) {
 
+								Log.d("Submission", "project registration");
+								pid = Long.valueOf(-1);
+								AddProjectTask task = new AddProjectTask();
+								task.execute(p);
+								Log.d("Submission", "after project registration : "+pid);
+								p.setRemoteId(pid);
 
-					Intent sendEmailIntent = new Intent(Intent.ACTION_SEND);
-					sendEmailIntent.putExtra(Intent.EXTRA_EMAIL, new String[]{email});		  
-					sendEmailIntent.putExtra(Intent.EXTRA_SUBJECT, "[BLAS] Soumission projet");
-					sendEmailIntent.putExtra(Intent.EXTRA_TEXT, content.toString());
-					sendEmailIntent.setType("message/rfc822");
-					try {
-						startActivity(Intent.createChooser(sendEmailIntent, "Choose an Email client :"));
+								//3.ajout du projet du projet dans la base interne
+								datasource.addProjects(p);
+								datasource.close();
 
-						Log.i("Finished sending email...", "");
-					} catch (android.content.ActivityNotFoundException ex) {
-						Toast.makeText(getApplicationContext(), "There is no email client installed.", Toast.LENGTH_SHORT).show();
-					}*/
+								if(infos.getText().toString().length() > 0) {
 
+									//4.Envoie du mail à Rachel s'il y a des informations complementaires
 
+								} 
+								else
+								{
+									Toast.makeText(getApplicationContext(), "GO !", Toast.LENGTH_SHORT).show();
+									Intent intent = new Intent(SubmissionActivity.this,ProjectManagerActivity.class);
+									startActivity(intent);
+								}
+
+							}
+
+						}
 					}
 					else 
 					{
@@ -222,7 +278,7 @@ public class SubmissionActivity extends Activity {
 	}
 
 
-	private void getUserEmail() {
+	private String getUserEmail() {
 
 		Account[] accounts = AccountManager.get(SubmissionActivity.this).getAccountsByType("com.google");
 		final List<String> items =  new ArrayList<String>();
@@ -239,7 +295,7 @@ public class SubmissionActivity extends Activity {
 			public void onItemSelected(AdapterView<?> arg0, View arg1,
 					int arg2, long arg3) {
 				// TODO Auto-generated method stub
-				userEmail = (String)arg0.getSelectedItem(); 
+				userEmail = (String)arg0.getSelectedItem();
 			}
 
 			@Override
@@ -248,26 +304,28 @@ public class SubmissionActivity extends Activity {
 			}
 
 		});
+
+		return userEmail;
 	}
 
 
 	private Boolean isRegistred() {
 		// TODO Auto-generated method stub
-		id = getSharedPreferences("BLAS_USER", MODE_PRIVATE).getLong("user_id", Long.valueOf(-1));
+		id = getSharedPreferences("BLAS", MODE_PRIVATE).getLong("user_id", Long.valueOf(-1));
 		Log.d("Submission", "USER ID "+id);
 		return (!(id.equals(Long.valueOf(-1))));
 	}
 
-	private void registration() {
+	private void registration(String email) {
 		// TODO Auto-generated method stub
 		Log.d("Submission","go to AddUserTask");
-		User user =  new User(userEmail);
+		User user =  new User(email);
 		try {
 			Log.d("Submission", "registration "+id);
 			if(new AddUserTask().execute(user).get())
 			{
 				Toast.makeText(getApplicationContext(), R.string.reg_succed, Toast.LENGTH_SHORT).show();
-				getSharedPreferences("BLAS_USER", MODE_PRIVATE).edit().putLong("user_id", id).commit();
+				getSharedPreferences("BLAS", MODE_PRIVATE).edit().putLong("user_id", id).commit();
 				//Intent i = new Intent(getApplicationContext(), ProjectManagerActivity.class);
 				//i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 				//startActivity(i);
@@ -355,7 +413,9 @@ public class SubmissionActivity extends Activity {
 					Log.d("Submission", "AddUserTask user id = "+id);
 				}
 				else
+				{
 					Log.d("Submission", "AddUserTask already known user : "+id);
+				}
 
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -401,6 +461,32 @@ public class SubmissionActivity extends Activity {
 		}
 	}
 
+	private void sendEmail() {
+		String email = getSharedPreferences("BLAS", MODE_PRIVATE).getString("conceptor_email", "lemacon.audrey@gmail.com");;
+		StringBuffer content = new StringBuffer();
+		content.append("project name : "+projectName.getText().toString()+"\n");
+		content.append("card type : "+globalVariable.getProjectType()+"\n");
+		content.append("card theme : "+globalVariable.getProjectTheme()+"\n");
+		content.append("card style : "+globalVariable.getProjectStyle()+"\n");
+		content.append("how many cards : "+globalVariable.getNumberOfCards()+"\n");
+		content.append("nedded for : "+globalVariable.getOrderDate()+"\n");
+		content.append("personnalisation : "+(globalVariable.getPerso() == null ? "anonymous" : globalVariable.getPerso() )+"\n");
+		content.append("informations complémentaires : "+infos.getText().toString()+"\n");
+		content.append("INFOS LOGISTIQUES : \nuser id ="+id+"\npojectid = "+pid+"\n");
+
+		Intent sendEmailIntent = new Intent(Intent.ACTION_SEND);
+		sendEmailIntent.putExtra(Intent.EXTRA_EMAIL, new String[]{email});		  
+		sendEmailIntent.putExtra(Intent.EXTRA_SUBJECT, "[BLAS] Soumission projet");
+		sendEmailIntent.putExtra(Intent.EXTRA_TEXT, content.toString());
+		sendEmailIntent.setType("message/rfc822");
+		try {
+			startActivity(Intent.createChooser(sendEmailIntent, "Petit mail pour Rachel ! "));
+
+			Log.i("Finished sending email...", "");
+		} catch (android.content.ActivityNotFoundException ex) {
+			Toast.makeText(getApplicationContext(), "There is no email client installed.", Toast.LENGTH_SHORT).show();
+		}
+	}
 
 	/*@Override
 	public void onBackPressed() {

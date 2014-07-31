@@ -10,6 +10,7 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <application
         android:name="com.androtailored.belikeastampuser.util.ProjectData"
@@ -100,7 +101,16 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.androtailored.belikeastampuser.activities.ProjectDetails"
+            android:name="com.androtailored.belikeastampuser.activities.SubmitProjectDetails"
+            android:label="@string/empty"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait" >
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.androtailored.belikeastampuser.activities.WaitingProjectDetails"
             android:label="@string/empty"
             android:launchMode="singleTop"
             android:screenOrientation="portrait" >

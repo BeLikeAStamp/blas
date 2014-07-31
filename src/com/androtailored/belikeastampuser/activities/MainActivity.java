@@ -1,16 +1,15 @@
 package com.androtailored.belikeastampuser.activities;
 
-import android.accounts.Account;
-import android.accounts.AccountManager;
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Bundle;
+import android.provider.SyncStateContract.Constants;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Menu;
@@ -21,8 +20,6 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.androtailored.belikeastampuser.R;
-import com.androtailored.belikeastampuser.db.model.User;
-import com.androtailored.belikeastampuser.util.UserController;
 
 public class MainActivity extends Activity {
 
@@ -32,17 +29,12 @@ public class MainActivity extends Activity {
 	private Button join;
 	private Button blog;
 	private ImageView avatar;
-	//private Button scrap;
-	private String userEmail = "";
-	private Long id;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-	
-		id = getSharedPreferences("BLAS_USER", MODE_PRIVATE).getLong("user_id", Long.valueOf(-1));
-		Log.i("MainActivity","user id = "+id);
-		
+		getSharedPreferences("BLAS", MODE_PRIVATE).edit().putString("conceptor_email", "lemacon.audrey@gmail.com").commit();
+
 		setContentView(R.layout.activity_main);		
 		DisplayMetrics displaymetrics = new DisplayMetrics();
 
@@ -81,19 +73,13 @@ public class MainActivity extends Activity {
 		workshop.setLayoutParams(params);
 
 		avatar.setOnClickListener(new View.OnClickListener() {
-			
+
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
 				Toast.makeText(getApplicationContext(),scrapDef, Toast.LENGTH_LONG).show();
 			}
 		});
-		
-	/*	params = scrap.getLayoutParams();
-		params.height = height_factor*3;		
-		params.width = height_factor*3;
-		scrap.setLayoutParams(params);
-		scrap.setText(scrapDef);*/
 
 		params = blog.getLayoutParams();
 		params.height = height_factor*4/5;		
@@ -120,10 +106,14 @@ public class MainActivity extends Activity {
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				String url = getResources().getString(R.string.belikeastamp);
-
-				Intent i = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
-				startActivity(i);
+				if(isOnline())
+				{
+					String url = getResources().getString(R.string.belikeastamp);
+					Intent i = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+					startActivity(i);
+				}
+				else
+					alertOffLine();
 			}
 		});
 
@@ -132,8 +122,13 @@ public class MainActivity extends Activity {
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				Intent intent = new Intent(MainActivity.this,TutorialsActivity.class);
-				startActivity(intent);
+				if(isOnline()) {
+					Intent intent = new Intent(MainActivity.this,TutorialsActivity.class);
+					startActivity(intent);
+				}
+				else
+					alertOffLine();
+
 			}
 		});
 
@@ -143,10 +138,31 @@ public class MainActivity extends Activity {
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				Intent intent = new Intent(MainActivity.this,WorkshopsActivity.class);
-				startActivity(intent);
+				if(isOnline()) {
+					Intent intent = new Intent(MainActivity.this,WorkshopsActivity.class);
+					startActivity(intent);
+				}
+				else
+					alertOffLine();
 			}
 		});
+		
+		join.setOnClickListener(new View.OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				if(isOnline()) {
+					//Intent intent = new Intent(MainActivity.this,TutorialsActivity.class);
+					//startActivity(intent);
+				}
+				else
+					alertOffLine();
+
+			}
+		});
+		
+		
 	}
 
 	@Override
@@ -155,6 +171,35 @@ public class MainActivity extends Activity {
 		getMenuInflater().inflate(R.menu.main, menu);
 		return true;
 	}
+
+	public boolean isOnline() {
+		ConnectivityManager cm =
+				(ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+		NetworkInfo netInfo = cm.getActiveNetworkInfo();
+		if (netInfo != null && netInfo.isConnectedOrConnecting()) {
+			return true;
+		}
+		return false;
+	}
+
+	private void alertOffLine() {
+		// Toast + ouverture panneau de conf
+		Log.d("MainActivity","OFF LINE");
+		AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+
+		builder.setTitle("Info");
+		builder.setMessage("This function need some network! Cross check your internet connectivity and try again");
+		//alertDialog.setIcon(R.drawable.);
+		builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+			public void onClick(DialogInterface dialog, int id) {
+				// User clicked OK button
+			}
+		});
+		AlertDialog dialog = builder.create();
+		dialog.show();
+	}
+
+
 
 	public int dpToPx(int dp) {
 		DisplayMetrics displayMetrics = getApplicationContext().getResources().getDisplayMetrics();

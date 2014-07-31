@@ -12,7 +12,7 @@ import com.androtailored.belikeastampuser.R;
 import com.androtailored.belikeastampuser.db.DatabaseHandler;
 import com.androtailored.belikeastampuser.db.model.Project;
 
-public class ProjectDetails extends Activity {
+public class WaitingProjectDetails extends Activity {
 	
 	TextView projectName;
 	TextView type;
@@ -26,7 +26,7 @@ public class ProjectDetails extends Activity {
 	
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.project_details);
+		setContentView(R.layout.waitingproject_details);
 		Project project = (Project) getIntent().getSerializableExtra("project");
 		final String[] status = getResources().getStringArray(R.array.status_arrays);
 		
@@ -35,8 +35,8 @@ public class ProjectDetails extends Activity {
 		theme = (TextView) findViewById(R.id.card_theme);
 		nbrCards = (TextView) findViewById(R.id.number);
 		orderDate = (TextView) findViewById(R.id.date);
-		progress = (TextView) findViewById(R.id.progression);
-		protolink = (TextView) findViewById(R.id.proto_link);
+		//progress = (TextView) findViewById(R.id.progression);
+		//protolink = (TextView) findViewById(R.id.proto_link);
 		precedent = (Button) findViewById(R.id.prev);
 		
 		projectName.setText(project.getName());
@@ -45,7 +45,7 @@ public class ProjectDetails extends Activity {
 		nbrCards.setText(""+project.getQuantity());
 		orderDate.setText(project.getOrderDate());
 		
-
+/*
 		if(project.getStatus() >= DatabaseHandler.PROTO_PENDING) {
 			// RECUPERATION DE LIMAGE EN BACKGROUND
 			protolink.setText("Lien!");
@@ -70,13 +70,13 @@ public class ProjectDetails extends Activity {
 				Toast.makeText(getApplicationContext(), text.toString(), Toast.LENGTH_LONG).show();
 			}
 		});
-		
+		*/
 		precedent.setOnClickListener(new View.OnClickListener() {
 
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				Intent intent = new Intent(ProjectDetails.this,ProjectManagerActivity.class);
+				Intent intent = new Intent(WaitingProjectDetails.this,ProjectManagerActivity.class);
 				startActivity(intent);
 			}
 		});

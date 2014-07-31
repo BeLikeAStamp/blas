@@ -35,11 +35,11 @@ public class ProjectController {
 	// JSON Node names
 	private static final String TAG_PJ = "projects";
 	private static final String TAG_ID = "id";
-	private static final String TAG_SDATE = "subdate";
+	private static final String TAG_SDATE = "subDate";
 	private static final String TAG_NAME = "name";
 	private static final String TAG_TYPE = "type";
 	private static final String TAG_THEME = "theme";
-	private static final String TAG_ODATE = "oderdate";
+	private static final String TAG_ODATE = "orderDate";
 	private static final String TAG_PERSO = "perso";
 	private static final String TAG_STATUS = "status";
 	private static final String TAG_QUANTITY = "quantity";

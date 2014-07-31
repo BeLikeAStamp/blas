@@ -3,8 +3,11 @@
 
     <string name="app_name">BeLikeAStamp</string>
     <string name="action_settings">Settings</string>
+    <string name="ok">OK</string>
     <string name="select_account">Choisir le compte de connexion</string>
     <string name="hello_world">Hello world!</string>
+    <string name="submit_project">Projets soumis</string>
+    <string name="waiting_project">Projets en attente de soumission</string>
     <string name="in_progress_project">Projets en cours</string>
     <string name="btn_new_project">Nouveau projet</string>
     <string name="btn_welcome">Accueil</string>
@@ -38,12 +41,12 @@
     <string name="project_explane">Helllooo ! Nous avons besoin de quelques précisions pour bien définir le projet : type de cartes, thème, couleurs, délais, personnalisation &#8230;</string>
     <string name="card_type">Type de cartes</string>
     <string name="belikeastamp">http://belikeastamp.blogspot.fr</string>
-	<string name="details">voir détails</string>
+    <string name="details">voir détails</string>
     <string name="progression">Avancement</string>
     <string name="prototype">Prototype</string>
     <string name="no_prototype">pas encore de prototype</string>
-    
-     <string-array name="status_arrays">
+
+    <string-array name="status_arrays">
         <item>Projet soumis</item>
         <item>Projet accepté</item>
         <item>Prototype en cours</item>
@@ -51,7 +54,6 @@
         <item>Réalisation en cours</item>
         <item>Réalisation finie</item>
     </string-array>
-    
     <string-array name="cardtypes">
         <item>Save The Date</item>
         <item>Remerciements</item>
@@ -66,7 +68,7 @@
     <string name="btn_next">Suivant</string>
     <string name="how_when">Combien et Quand ?</string>
     <string name="how_many_cards">Combien de cartes</string>
-    <string name="zero">0</string>
+    <string name="un">1</string>
     <string name="for_when">Pour quand ?</string>
     <string name="color_set">Les couleurs</string>
     <string name="color_instruction">Choisis trois couleurs maximum</string>
@@ -100,7 +102,6 @@
     <string name="mission_impossible">Désolé nous n\'avons que 4 mains :(</string>
     <string name="infos_manquantes">Désolé il nous faut un peu plus d\'infos :)</string>
     <string name="back_in_time">Désolé nous ne remontons pas le temps ;-)</string>
-    
     <string name="anonymous_card">Carte anonyme</string>
     <string name="personalized_card">Carte nominative</string>
     <string name="sexe">Sexe</string>
@@ -113,5 +114,11 @@
     <string name="project_name">Nom du projet : </string>
     <string name="empty"></string>
     <string name="title_activity_first_connexion">FirstConnexion</string>
-
+    <string name="btn_resume">Reprendre</string>
+    <string name="btn_proto">Voir proto</string>
+	<string name="btn_ok_proto">Accepter proto</string>
+	<string name="btn_no_proto">Revoir proto</string>
+	<string name="messade">message</string>
+	
+	
 </resources>

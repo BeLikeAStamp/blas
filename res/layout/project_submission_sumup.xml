@@ -203,8 +203,10 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/layout"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
+            android:visibility="gone"
             android:orientation="horizontal" >
 
             <TextView
@@ -237,14 +239,24 @@
                 android:background="@drawable/btn_action_pink"
                 android:text="@string/btn_previous" />
 
+             <Button
+                android:id="@+id/reg"
+                style="@style/btnStyleActionPink"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:background="@drawable/btn_action_lblue"
+                android:text="@string/btn_record" />
+            
             <Button
                 android:id="@+id/send"
                 style="@style/btnStyleActionPink"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="30dip"
-                android:background="@drawable/btn_action_pink"
+                android:background="@drawable/btn_action_hblue"
                 android:text="@string/btn_send" />
+            
         </LinearLayout>
     </LinearLayout>
 

@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin" >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical" >
+
+        <LinearLayout
+            android:layout_width="0px"
+            android:layout_height="0px"
+            android:focusable="true"
+            android:focusableInTouchMode="true" />
+
+        <TextView
+            android:id="@+id/project_name"
+            style="@style/LargePink"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingBottom="20dp" />
+
+        <TableLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" >
+
+            <TableRow>
+
+                <TextView
+                    style="@style/MediumHblue"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/card_type" />
+
+                <TextView
+                    android:id="@+id/card_type"
+                    style="@style/MediumLblue"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="20dp" />
+            </TableRow>
+
+            <TableRow>
+
+                <TextView
+                    style="@style/MediumHblue"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/themes" />
+
+                <TextView
+                    android:id="@+id/card_theme"
+                    style="@style/MediumLblue"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="20dp" />
+            </TableRow>
+
+            <TableRow>
+
+                <TextView
+                    style="@style/MediumHblue"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/how_many_cards" />
+
+                <TextView
+                    android:id="@+id/number"
+                    style="@style/MediumLblue"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="20dp" />
+            </TableRow>
+
+            <TableRow>
+
+                <TextView
+                    style="@style/MediumHblue"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/for_when" />
+
+                <TextView
+                    android:id="@+id/date"
+                    style="@style/MediumLblue"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="20dp" />
+            </TableRow>
+
+            <TableRow>
+
+                <TextView
+                    android:id="@+id/prototype"
+                    style="@style/MediumHblue"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/prototype" />
+
+                <TextView
+                    android:id="@+id/proto_link"
+                    style="@style/MediumLblue"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="20dp" />
+            </TableRow>
+        </TableLayout>
+
+        <TextView
+            android:id="@+id/progression"
+            style="@style/MediumHblue"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:drawablePadding="10dp"
+            android:text="@string/progression" />
+
+        <View
+            android:layout_width="fill_parent"
+            android:layout_height="1px"
+            android:layout_marginTop="10dp"
+            android:background="#FF909090" />
+
+        <LinearLayout
+            android:id="@+id/valid_proto"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="20dp"
+            android:gravity="center"
+            android:orientation="horizontal" >
+
+            <Button
+                android:id="@+id/ok_proto"
+                style="@style/btnStyleActionPink"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/btn_action_pink"
+                android:text="@string/btn_ok_proto" />
+
+            <Button
+                android:id="@+id/no_proto"
+                style="@style/btnStyleActionPink"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="30dip"
+                android:background="@drawable/btn_action_pink"
+                android:text="@string/btn_no_proto" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/send_msg"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:orientation="vertical" >
+
+            <EditText
+                android:id="@+id/msg"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/infos_height"
+                android:layout_marginBottom="5dp"
+                android:layout_marginTop="10dp"
+                android:ems="10"
+                android:gravity="left|top"
+                android:hint="@string/infos"
+                android:inputType="textMultiLine" >
+            </EditText>
+
+            <Button
+                android:id="@+id/send"
+                style="@style/btnStyleActionPink"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                android:background="@drawable/btn_action_pink"
+                android:text="@string/btn_send" />
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/prev"
+            style="@style/btnStyleActionPink"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:background="@drawable/btn_action_pink"
+            android:text="@string/btn_previous" />
+    </LinearLayout>
+
+</ScrollView>

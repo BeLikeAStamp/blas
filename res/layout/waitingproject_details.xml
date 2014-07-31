@@ -82,33 +82,8 @@
                 android:layout_height="wrap_content"
                 android:paddingLeft="20dp" />
         </TableRow>
-
-        <TableRow>
-
-            <TextView
-                android:id="@+id/prototype"
-                style="@style/MediumHblue"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/prototype" />
-
-            <TextView
-                android:id="@+id/proto_link"
-                style="@style/MediumLblue"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:paddingLeft="20dp" />
-        </TableRow>
     </TableLayout>
 
-    <TextView
-        android:id="@+id/progression"
-        style="@style/MediumHblue"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:drawablePadding="10dp"
-        android:text="@string/progression" />
-    
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -123,14 +98,25 @@
             android:background="@drawable/btn_action_pink"
             android:text="@string/btn_previous" />
 
+          <Button
+            android:id="@+id/resume"
+            style="@style/btnStyleActionPink"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dip"
+            android:layout_marginRight="10dip"
+            android:background="@drawable/btn_action_pink"
+            android:text="@string/btn_resume" />
+          
         <Button
             android:id="@+id/send"
             style="@style/btnStyleActionPink"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="30dip"
             android:background="@drawable/btn_action_pink"
             android:text="@string/btn_send" />
+
+      
     </LinearLayout>
 
 </LinearLayout>

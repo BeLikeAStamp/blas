@@ -44,7 +44,8 @@ public class ProjectsData {
 		values.put(DatabaseHandler.P_TYPE, project.getType());
 		values.put(DatabaseHandler.P_ORDERDATA, project.getOrderDate());
 		values.put(DatabaseHandler.P_NBRCARDS, project.getQuantity());
-
+		values.put(DatabaseHandler.P_COLORS, project.getColors());
+		
 		// Inserting Row
 		database.insert(DatabaseHandler.TABLE_PROJECTS, null, values);
 
@@ -60,6 +61,7 @@ public class ProjectsData {
 				DatabaseHandler.P_ORDERDATA,
 				DatabaseHandler.P_NBRCARDS,
 				DatabaseHandler.P_REMOTEID,
+				DatabaseHandler.P_COLORS,
 		}, DatabaseHandler.P_NAME + "=?",
 		new String[] { name }, null, null, null, null);
 		if (cursor != null)
@@ -86,6 +88,43 @@ public class ProjectsData {
 		return projects;
 	}
 
+	public List<Project> getAllSubmitProjects() {
+		List<Project> projects = new ArrayList<Project>();
+		String selectQuery = "SELECT  * FROM " + DatabaseHandler.TABLE_PROJECTS +
+				" WHERE "+DatabaseHandler.P_STATUS+" = "+DatabaseHandler.PROJ_SUBMIT;
+
+		Cursor cursor = database.rawQuery(selectQuery, null);
+
+		// looping through all rows and adding to list
+		if (cursor.moveToFirst()) {
+			do {
+				Project project = cursorToProject(cursor);
+				projects.add(project);
+			} while (cursor.moveToNext());
+		}
+
+		return projects;
+	}
+	
+	public List<Project> getAllWaitingProjects() {
+		List<Project> projects = new ArrayList<Project>();
+		String selectQuery = "SELECT  * FROM " + DatabaseHandler.TABLE_PROJECTS +
+				" WHERE "+DatabaseHandler.P_STATUS+" = "+DatabaseHandler.PROJ_WAIT;
+
+		Cursor cursor = database.rawQuery(selectQuery, null);
+
+		// looping through all rows and adding to list
+		if (cursor.moveToFirst()) {
+			do {
+				Project project = cursorToProject(cursor);
+				projects.add(project);
+			} while (cursor.moveToNext());
+		}
+
+		return projects;
+	}
+	
+	
 	public int getProjectsCount() {
 		String selectQuery = "SELECT  * FROM " + DatabaseHandler.TABLE_PROJECTS;
 		Cursor cursor = database.rawQuery(selectQuery, null);
@@ -117,6 +156,7 @@ public class ProjectsData {
 		project.setStatus(cursor.getInt(5));
 		project.setQuantity(cursor.getInt(6));
 		project.setRemoteId(cursor.getLong(7));
+		project.setColors(cursor.getString(8));
 		return project;
 	}
 
@@ -130,6 +170,7 @@ public class ProjectsData {
 				DatabaseHandler.P_ORDERDATA,
 				DatabaseHandler.P_NBRCARDS,
 				DatabaseHandler.P_REMOTEID,
+				DatabaseHandler.P_COLORS,
 		}, DatabaseHandler.P_NAME + "=?",
 		new String[] { name }, null, null, null, null);
 		

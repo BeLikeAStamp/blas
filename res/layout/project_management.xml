@@ -24,14 +24,40 @@
             style="@style/MediumGreen"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/in_progress_project" />
+            android:text="@string/submit_project" />
 
         <TableLayout
-            android:id="@+id/projectList"
-            android:layout_marginLeft="15dp"
+            android:id="@+id/submitProjectList"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" >
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:layout_marginTop="10dp" >
         </TableLayout>
+
+        <View
+            android:layout_width="fill_parent"
+            android:layout_height="1px"
+            android:background="#FF909090" />
+
+        <TextView
+            style="@style/MediumGreen"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:text="@string/waiting_project" />
+
+        <TableLayout
+            android:id="@+id/waitingProjectList"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:layout_marginTop="10dp" >
+        </TableLayout>
+
+        <View
+            android:layout_width="fill_parent"
+            android:layout_height="1px"
+            android:background="#FF909090" />
 
         <Button
             android:id="@+id/go"
