@@ -50,25 +50,25 @@ public class ProjectController {
 	public ProjectController() {
 		EngineConfiguration.getInstance();
 		cr.setRequestEntityBuffering(true);
-		Log.i("WorkshopController", "initialisation ok !");
+		Log.i("ProjectController", "initialisation ok !");
 	}
 
-	public void create(Project p, Long userId) throws Exception {
+	public void create(Project p, Long id) throws Exception {
 		try {
-			buildPostURL(p,userId);
-			Log.i("UserController", "Creation success !");
+			buildPostURL(p,id);
+			Log.i("ProjectController", "Creation success !");
 		} catch (Exception e) {
-			Log.i("UserController", "Creation failed !");
+			Log.i("ProjectController", "Creation failed !");
 			throw e;
 		}
 	}
 	
-	public void update(Project p, Long userId) throws Exception {
+	public void update(Project p, Long id) throws Exception {
 		try {
-			buildPutURL(p, userId);
-			Log.i("UserController", "Update success !");
+			buildPutURL(p, id);
+			Log.i("ProjectController", "Update success !");
 		} catch (Exception e) {
-			Log.i("UserController", "Update failed !");
+			Log.i("ProjectController", "Update failed !");
 			throw e;
 		}
 	}
@@ -76,9 +76,9 @@ public class ProjectController {
 	public void delete(Long id)  throws Exception {
 		try {
 			buildDeleteURL(id);
-			Log.i("UserController", "Delete success !");
+			Log.i("ProjectController", "Delete success !");
 		} catch (Exception e) {
-			Log.i("UserController", "Delete failed !");
+			Log.i("ProjectController", "Delete failed !");
 			throw e;
 		}
 		

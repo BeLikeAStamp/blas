@@ -2,6 +2,8 @@ package com.androtailored.belikeastampuser.db.model;
 
 import java.io.Serializable;
 
+import com.androtailored.belikeastampuser.util.ProjectData;
+
 public class Project implements Serializable {
 
 	/**
@@ -134,4 +136,16 @@ public class Project implements Serializable {
 		this.colors = colors;
 	}
 
+
+
+	@Override
+	public String toString() {
+		return "Project [name=" + name + "\n subDate=" + subDate + "\n theme="
+				+ theme + "\n type=" + type + "\n orderDate=" + orderDate
+				+ "\n path_to_prototype=" + path_to_prototype + "\n perso="
+				+ perso + "\n colors=" + colors + "\n status=" + status
+				+ "\n quantity=" + quantity + "\n remoteId=" + remoteId + "]";
+	}
+	
+	
 }

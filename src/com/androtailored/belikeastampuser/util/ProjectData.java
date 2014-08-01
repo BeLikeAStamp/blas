@@ -21,6 +21,13 @@ public class ProjectData extends Application {
 
 	public ProjectData() {
 		super();
+		projectTheme = "";
+		projectType = "";
+		projectStyle = "";
+		projectName = "";
+		numberOfCards = "";
+		submitDate = "";
+		orderDate = "";
 		colorPanel = new int[]{-1,-1,-1};
 		fillMap();
 	}

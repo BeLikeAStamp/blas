@@ -206,8 +206,8 @@
             android:id="@+id/layout"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:visibility="gone"
-            android:orientation="horizontal" >
+            android:orientation="horizontal"
+            android:visibility="gone" >
 
             <TextView
                 style="@style/MediumHblue"
@@ -218,16 +218,56 @@
             <Spinner
                 android:id="@+id/email"
                 style="@style/btnStyleActionLBlue"
-                android:prompt="@string/theme_prompt"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
                 android:layout_marginLeft="5dp"
-                android:layout_marginBottom="10dp" />
+                android:prompt="@string/theme_prompt" />
         </LinearLayout>
-        
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_marginTop="10dp"
+            android:gravity="center"
+            android:orientation="horizontal" >
+
+            <Button
+                android:id="@+id/modif"
+                style="@style/btnStyleActionGreen"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/btn_action_green"
+                android:text="@string/btn_modif" />
+
+            <Button
+                android:id="@+id/reg"
+                style="@style/btnStyleActionPink"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:background="@drawable/btn_action_lblue"
+                android:text="@string/btn_record" />
+
+            <Button
+                android:id="@+id/send"
+                style="@style/btnStyleActionPink"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/btn_action_hblue"
+                android:text="@string/btn_send" />
+        </LinearLayout>
+
+        <View
+            android:layout_width="fill_parent"
+            android:layout_height="1px"
+            android:background="#FF909090" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="10dp"
             android:gravity="center"
             android:orientation="horizontal" >
 
@@ -239,24 +279,16 @@
                 android:background="@drawable/btn_action_pink"
                 android:text="@string/btn_previous" />
 
-             <Button
-                android:id="@+id/reg"
+            <Button
+                android:id="@+id/welcome"
                 style="@style/btnStyleActionPink"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
-                android:background="@drawable/btn_action_lblue"
-                android:text="@string/btn_record" />
-            
-            <Button
-                android:id="@+id/send"
-                style="@style/btnStyleActionPink"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@drawable/btn_action_hblue"
-                android:text="@string/btn_send" />
-            
+                android:background="@drawable/btn_action_pink"
+                android:text="@string/btn_welcome" >
+            </Button>
         </LinearLayout>
     </LinearLayout>
 

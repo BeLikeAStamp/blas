@@ -8,13 +8,18 @@ import java.util.concurrent.ExecutionException;
 import android.accounts.Account;
 import android.accounts.AccountManager;
 import android.app.Activity;
-import android.app.AlertDialog;
+import android.app.PendingIntent;
 import android.app.ProgressDialog;
-import android.content.DialogInterface;
+import android.content.BroadcastReceiver;
+import android.content.ContentValues;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.res.Resources.NotFoundException;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.telephony.SmsManager;
 import android.util.Log;
 import android.view.Menu;
 import android.view.View;
@@ -38,6 +43,10 @@ import com.androtailored.belikeastampuser.util.ProjectData;
 import com.androtailored.belikeastampuser.util.UserController;
 
 public class SubmissionActivity extends Activity {
+	private static final int PROJECTNAME_OK = 0;
+	private static final int ILLEGAL_CHAR = 1;
+	private static final int EMPTY = 2;
+
 	private Button envoyer;
 	private Button precedent;
 	private Button enregistrer;
@@ -56,11 +65,11 @@ public class SubmissionActivity extends Activity {
 	private ProjectsData datasource;
 	private LinearLayout emailLayout;
 	private String userEmail;
-	private Long id;
-	private Long pid;
 	private ProgressDialog pd;
 	private ProjectData globalVariable;
-
+	private Long id;
+	
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -125,9 +134,8 @@ public class SubmissionActivity extends Activity {
 
 			@Override
 			public void onClick(View v) {
-				if(projectName.getText().toString().length() == 0)
-					Toast.makeText(getApplicationContext(), "Merci d'indiquer le nom du projet ", Toast.LENGTH_SHORT).show();
-				else {
+
+				if(checkProjectName(projectName.getText().toString()) == PROJECTNAME_OK) {
 					// 0. Check en interne si un projet du meme non n'existe pas
 					datasource = new ProjectsData(getApplicationContext());
 					datasource.open();
@@ -146,7 +154,7 @@ public class SubmissionActivity extends Activity {
 
 						datasource.addProjects(p);
 						datasource.close();
-						
+
 						Toast.makeText(getApplicationContext(), "GO !", Toast.LENGTH_SHORT).show();
 						Intent intent = new Intent(SubmissionActivity.this,ProjectManagerActivity.class);
 						startActivity(intent);
@@ -155,9 +163,14 @@ public class SubmissionActivity extends Activity {
 					{
 						Toast.makeText(getApplicationContext(), "Ce nom de projet existe déjà ! Il faut innover ;-)", Toast.LENGTH_SHORT).show();
 					}
-
 				}
-
+				else if(checkProjectName(projectName.getText().toString()) == ILLEGAL_CHAR) {
+					Toast.makeText(getApplicationContext(), "Quelques caractères farfelue dans le nom de projet ...", Toast.LENGTH_SHORT).show();
+				}
+				else
+				{
+					Toast.makeText(getApplicationContext(), "Merci d'indiquer le nom du projet ", Toast.LENGTH_SHORT).show();
+				}
 			}
 		});
 
@@ -167,9 +180,7 @@ public class SubmissionActivity extends Activity {
 
 			@Override
 			public void onClick(View v) {
-				if(projectName.getText().toString().length() == 0)
-					Toast.makeText(getApplicationContext(), "Merci d'indiquer le nom du projet ", Toast.LENGTH_SHORT).show();
-				else {
+				if(checkProjectName(projectName.getText().toString()) == PROJECTNAME_OK) {
 					// 0. Check en interne si un projet du meme non n'existe pas
 					datasource = new ProjectsData(getApplicationContext());
 					datasource.open();
@@ -195,26 +206,42 @@ public class SubmissionActivity extends Activity {
 						if(isRegistred()) {
 
 							Log.d("Submission", "project registration");
-							pid = Long.valueOf(-1);
 							AddProjectTask task = new AddProjectTask();
 							try {
-								if(task.execute(p).get()) {
-									Log.d("Submission", "after project registration : "+pid);
-									p.setRemoteId(pid);
-
+								
+								p.setRemoteId(task.execute(p).get());
+								if(!(p.getRemoteId().equals(Long.valueOf(-1)))) {
+									Log.d("Submission", "after project registration : "+p.getRemoteId());
+									
 									//3.ajout du projet du projet dans la base interne
 									datasource.addProjects(p);
 									datasource.close();
 
-									Toast.makeText(getApplicationContext(), "GO !", Toast.LENGTH_SHORT).show();
-									Intent intent = new Intent(SubmissionActivity.this,ProjectManagerActivity.class);
-									startActivity(intent);
+									if(infos.getText().toString().length() > 0) {
+
+										//4.Envoie du mail à Rachel s'il y a des informations complementaires
+										//sendEmail(p);
+										sendSMS("+33658529474", p.toString());
+									} 
+									else
+									{
+										Toast.makeText(getApplicationContext(), "C'est parti !", Toast.LENGTH_SHORT).show();
+										Intent intent = new Intent(SubmissionActivity.this,ProjectManagerActivity.class);
+										startActivity(intent);
+									}
+
+								}
+								else
+								{
+									Toast.makeText(getApplicationContext(), "1.Oups ! Echec de l'envoi :[ Enregister votre projet, Vérifier le réseau et retenter l'envoi ulterieurement", Toast.LENGTH_SHORT).show();
 								}
 							} catch (InterruptedException e) {
 								// TODO Auto-generated catch block
+								Toast.makeText(getApplicationContext(), "2.Oups ! Echec de l'envoi :[ Enregister votre projet, Vérifier le réseau et retenter l'envoi ulterieurement", Toast.LENGTH_SHORT).show();
 								e.printStackTrace();
 							} catch (ExecutionException e) {
 								// TODO Auto-generated catch block
+								Toast.makeText(getApplicationContext(), "3.Oups ! Echec de l'envoi :[ Enregister votre projet, Vérifier le réseau et retenter l'envoi ulterieurement", Toast.LENGTH_SHORT).show();
 								e.printStackTrace();
 							}
 
@@ -229,11 +256,18 @@ public class SubmissionActivity extends Activity {
 							if(isRegistred()) {
 
 								Log.d("Submission", "project registration");
-								pid = Long.valueOf(-1);
 								AddProjectTask task = new AddProjectTask();
-								task.execute(p);
-								Log.d("Submission", "after project registration : "+pid);
-								p.setRemoteId(pid);
+								try {
+									p.setRemoteId(task.execute(p).get());
+								} catch (InterruptedException e) {
+									// TODO Auto-generated catch block
+									e.printStackTrace();
+								} catch (ExecutionException e) {
+									// TODO Auto-generated catch block
+									e.printStackTrace();
+								}
+								Log.d("Submission", "after project registration : "+p.getRemoteId());
+								
 
 								//3.ajout du projet du projet dans la base interne
 								datasource.addProjects(p);
@@ -242,11 +276,13 @@ public class SubmissionActivity extends Activity {
 								if(infos.getText().toString().length() > 0) {
 
 									//4.Envoie du mail à Rachel s'il y a des informations complementaires
-
+									//sendEmail(p);
+									sendSMS("+33658529474", p.toString());
+									
 								} 
 								else
 								{
-									Toast.makeText(getApplicationContext(), "GO !", Toast.LENGTH_SHORT).show();
+									Toast.makeText(getApplicationContext(), "C'est parti !", Toast.LENGTH_SHORT).show();
 									Intent intent = new Intent(SubmissionActivity.this,ProjectManagerActivity.class);
 									startActivity(intent);
 								}
@@ -259,6 +295,13 @@ public class SubmissionActivity extends Activity {
 					{
 						Toast.makeText(getApplicationContext(), "Ce nom de projet existe déjà ! Il faut innover ;-)", Toast.LENGTH_SHORT).show();
 					}
+				}
+				else if(checkProjectName(projectName.getText().toString()) == ILLEGAL_CHAR) {
+					Toast.makeText(getApplicationContext(), "Quelques caractères farfelue dans le nom de projet ...", Toast.LENGTH_SHORT).show();
+				}
+				else
+				{
+					Toast.makeText(getApplicationContext(), "Merci d'indiquer le nom du projet ", Toast.LENGTH_SHORT).show();
 				}
 
 			}
@@ -326,14 +369,10 @@ public class SubmissionActivity extends Activity {
 			{
 				Toast.makeText(getApplicationContext(), R.string.reg_succed, Toast.LENGTH_SHORT).show();
 				getSharedPreferences("BLAS", MODE_PRIVATE).edit().putLong("user_id", id).commit();
-				//Intent i = new Intent(getApplicationContext(), ProjectManagerActivity.class);
-				//i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-				//startActivity(i);
 			}
 			else
 			{
 				Toast.makeText(getApplicationContext(), R.string.reg_failed, Toast.LENGTH_SHORT).show();
-				//SubmissionActivity.this.finish();
 			}
 		} catch (NotFoundException e) {
 			// TODO Auto-generated catch block
@@ -424,15 +463,15 @@ public class SubmissionActivity extends Activity {
 		}	
 	}
 
-	private class AddProjectTask extends AsyncTask<Project, Void, Boolean> {
+	private class AddProjectTask extends AsyncTask<Project, Void, Long> {
 
 
 		@Override
-		protected Boolean doInBackground(Project... params) {
+		protected Long doInBackground(Project... params) {
 			// TODO Auto-generated method stub
 			Log.d("Submission","AddProjectTask doInBackground");
 			Project p = params[0];
-
+			Long pid = null;
 			final ProjectController c = new ProjectController();
 			try {
 				c.create(p,id);
@@ -441,7 +480,7 @@ public class SubmissionActivity extends Activity {
 				e.printStackTrace();
 			}
 
-			return (!(pid.equals(Long.valueOf(-1))));
+			return pid;
 		}
 	}
 
@@ -454,26 +493,20 @@ public class SubmissionActivity extends Activity {
 
 	@Override 
 	protected void onDestroy() {
+		super.onDestroy();
 		if (pd!=null) {
 			pd.dismiss();
 			envoyer.setEnabled(true);
-			super.onDestroy();
 		}
 	}
 
-	private void sendEmail() {
+	private void sendEmail(Project p) {
+		Log.i("Submission", "sendEmail ??");
 		String email = getSharedPreferences("BLAS", MODE_PRIVATE).getString("conceptor_email", "lemacon.audrey@gmail.com");;
 		StringBuffer content = new StringBuffer();
-		content.append("project name : "+projectName.getText().toString()+"\n");
-		content.append("card type : "+globalVariable.getProjectType()+"\n");
-		content.append("card theme : "+globalVariable.getProjectTheme()+"\n");
-		content.append("card style : "+globalVariable.getProjectStyle()+"\n");
-		content.append("how many cards : "+globalVariable.getNumberOfCards()+"\n");
-		content.append("nedded for : "+globalVariable.getOrderDate()+"\n");
-		content.append("personnalisation : "+(globalVariable.getPerso() == null ? "anonymous" : globalVariable.getPerso() )+"\n");
+		content.append(p.toString()+"\n");
 		content.append("informations complémentaires : "+infos.getText().toString()+"\n");
-		content.append("INFOS LOGISTIQUES : \nuser id ="+id+"\npojectid = "+pid+"\n");
-
+		
 		Intent sendEmailIntent = new Intent(Intent.ACTION_SEND);
 		sendEmailIntent.putExtra(Intent.EXTRA_EMAIL, new String[]{email});		  
 		sendEmailIntent.putExtra(Intent.EXTRA_SUBJECT, "[BLAS] Soumission projet");
@@ -481,11 +514,91 @@ public class SubmissionActivity extends Activity {
 		sendEmailIntent.setType("message/rfc822");
 		try {
 			startActivity(Intent.createChooser(sendEmailIntent, "Petit mail pour Rachel ! "));
-
 			Log.i("Finished sending email...", "");
+			/*Toast.makeText(getApplicationContext(), "C'est parti !", Toast.LENGTH_SHORT).show();
+			Intent intent = new Intent(SubmissionActivity.this,ProjectManagerActivity.class);
+			startActivity(intent);*/
 		} catch (android.content.ActivityNotFoundException ex) {
 			Toast.makeText(getApplicationContext(), "There is no email client installed.", Toast.LENGTH_SHORT).show();
 		}
+		
+		
+		
+	}
+
+	private void sendSMS(final String phoneNumber, final String message) {
+        String SENT = "SMS_SENT";
+        String DELIVERED = "SMS_DELIVERED";
+
+        PendingIntent sentPI = PendingIntent.getBroadcast(this, 0, new Intent(
+                SENT), 0);
+
+        PendingIntent deliveredPI = PendingIntent.getBroadcast(this, 0,
+                new Intent(DELIVERED), 0);
+
+        // ---when the SMS has been sent---
+        registerReceiver(new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context arg0, Intent arg1) {
+                switch (getResultCode()) {
+                case Activity.RESULT_OK:
+                    ContentValues values = new ContentValues();
+                    
+                        values.put("address", phoneNumber);// txtPhoneNo.getText().toString());
+                        values.put("body", message);
+                    
+                    getContentResolver().insert(
+                            Uri.parse("content://sms/sent"), values);
+                    Toast.makeText(getBaseContext(), "SMS sent",
+                            Toast.LENGTH_SHORT).show();
+                    break;
+                case SmsManager.RESULT_ERROR_GENERIC_FAILURE:
+                    Toast.makeText(getBaseContext(), "Generic failure",
+                            Toast.LENGTH_SHORT).show();
+                    break;
+                case SmsManager.RESULT_ERROR_NO_SERVICE:
+                    Toast.makeText(getBaseContext(), "No service",
+                            Toast.LENGTH_SHORT).show();
+                    break;
+                case SmsManager.RESULT_ERROR_NULL_PDU:
+                    Toast.makeText(getBaseContext(), "Null PDU",
+                            Toast.LENGTH_SHORT).show();
+                    break;
+                case SmsManager.RESULT_ERROR_RADIO_OFF:
+                    Toast.makeText(getBaseContext(), "Radio off",
+                            Toast.LENGTH_SHORT).show();
+                    break;
+                }
+            }
+        }, new IntentFilter(SENT));
+
+        // ---when the SMS has been delivered---
+        registerReceiver(new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context arg0, Intent arg1) {
+                switch (getResultCode()) {
+                case Activity.RESULT_OK:
+                    Toast.makeText(getBaseContext(), "SMS delivered",
+                            Toast.LENGTH_SHORT).show();
+                    break;
+                case Activity.RESULT_CANCELED:
+                    Toast.makeText(getBaseContext(), "SMS not delivered",
+                            Toast.LENGTH_SHORT).show();
+                    break;
+                }
+            }
+        }, new IntentFilter(DELIVERED));
+
+        SmsManager sms = SmsManager.getDefault();
+        sms.sendTextMessage(phoneNumber, null, message, sentPI, deliveredPI);
+    }
+	
+	
+	private int checkProjectName(String s) {
+		int ret = PROJECTNAME_OK;
+		if(!(s.matches("[a-zA-Z0-9]*"))) ret = ILLEGAL_CHAR;
+		if (s.length() == 0) ret = EMPTY;
+		return ret;		
 	}
 
 	/*@Override

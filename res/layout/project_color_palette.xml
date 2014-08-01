@@ -39,9 +39,9 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="#FAFAFA"
         android:orientation="horizontal"
         android:paddingBottom="10dp"
-        android:background="#FAFAFA"
         android:paddingTop="20dp" >
 
         <ImageView
@@ -65,6 +65,11 @@
             android:layout_marginLeft="10dp"
             android:background="@android:color/transparent" />
     </LinearLayout>
+
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="1px"
+        android:background="#FF909090" />
 
     <LinearLayout
         android:layout_width="match_parent"

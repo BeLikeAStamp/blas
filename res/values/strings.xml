@@ -110,8 +110,9 @@
     <string name="btn_add_subject">Ajouter une personne</string>
     <string name="your_project">Ton projet</string>
     <string name="btn_send">Envoyer</string>
+    <string name="btn_modif">Modifier</string>
     <string name="infos">Infos complémentaires</string>
-    <string name="project_name">Nom du projet : </string>
+    <string name="project_name">Nom du projet</string>
     <string name="empty"></string>
     <string name="title_activity_first_connexion">FirstConnexion</string>
     <string name="btn_resume">Reprendre</string>

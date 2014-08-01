@@ -3,8 +3,10 @@ package com.androtailored.belikeastampuser.activities;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -23,6 +25,11 @@ public class SubmitProjectDetails extends Activity {
 	TextView protolink;
 	Button suivant;
 	Button precedent;
+	Button ok_proto;
+	Button no_proto;
+	Button send;
+	LinearLayout valid_proto;
+	LinearLayout send_msg;
 	
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -38,6 +45,12 @@ public class SubmitProjectDetails extends Activity {
 		progress = (TextView) findViewById(R.id.progression);
 		protolink = (TextView) findViewById(R.id.proto_link);
 		precedent = (Button) findViewById(R.id.prev);
+		ok_proto = (Button) findViewById(R.id.ok_proto);
+		no_proto = (Button) findViewById(R.id.no_proto);
+		send =  (Button) findViewById(R.id.send);
+		valid_proto = (LinearLayout) findViewById(R.id.valid_proto);
+		send_msg = (LinearLayout) findViewById(R.id.send_msg);
+
 		
 		projectName.setText(project.getName());
 		type.setText(project.getType());
@@ -46,9 +59,38 @@ public class SubmitProjectDetails extends Activity {
 		orderDate.setText(project.getOrderDate());
 		
 
-		if(project.getStatus() >= DatabaseHandler.PROTO_PENDING) {
+		if(project.getStatus() >= DatabaseHandler.PROJ_SUBMIT) { // TO DO MODIFIER !!!!!
 			// RECUPERATION DE LIMAGE EN BACKGROUND
-			protolink.setText("Lien!");
+			protolink.setText("Recuperer l'image");
+			valid_proto.setVisibility(View.VISIBLE);
+			no_proto.setOnClickListener(new View.OnClickListener() {
+				
+				@Override
+				public void onClick(View v) {
+					// TODO Auto-generated method stub
+					Log.d("SubmitProjectDetails", "NO PROTO");
+					send_msg.setVisibility(View.VISIBLE);
+				}		
+			});
+			
+			ok_proto.setOnClickListener(new View.OnClickListener() {
+				
+				@Override
+				public void onClick(View v) {
+					// TODO Auto-generated method stub
+					Log.d("SubmitProjectDetails", "OK PROTO");
+				}		
+			});
+			
+			send.setOnClickListener(new View.OnClickListener() {
+				
+				@Override
+				public void onClick(View v) {
+					// TODO Auto-generated method stub
+					Log.d("SubmitProjectDetails", "NO PROTO -  SEND MESSAGE");
+				}		
+			});
+			
 		}
 		else
 		{

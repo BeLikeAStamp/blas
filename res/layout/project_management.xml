@@ -34,11 +34,6 @@
             android:layout_marginTop="10dp" >
         </TableLayout>
 
-        <View
-            android:layout_width="fill_parent"
-            android:layout_height="1px"
-            android:background="#FF909090" />
-
         <TextView
             style="@style/MediumGreen"
             android:layout_width="wrap_content"
@@ -54,11 +49,6 @@
             android:layout_marginTop="10dp" >
         </TableLayout>
 
-        <View
-            android:layout_width="fill_parent"
-            android:layout_height="1px"
-            android:background="#FF909090" />
-
         <Button
             android:id="@+id/go"
             style="@style/btnStyleActionGreen"
@@ -67,6 +57,11 @@
             android:layout_marginTop="20dp"
             android:background="@drawable/btn_action_green"
             android:text="@string/btn_new_project" />
+
+        <View
+            android:layout_width="fill_parent"
+            android:layout_height="1px"
+            android:background="#FF909090" />
 
         <Button
             android:id="@+id/welcome"
